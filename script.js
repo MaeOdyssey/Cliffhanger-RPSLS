@@ -76,10 +76,17 @@ function playGame(playerChoice) {
     }
 }
 
-// Function to Move the Enterprise
+// Function to Move the Enterprise (Now Includes Rotation)
 function updateShipPosition() {
     const percentage = (shipPosition / maxPosition) * 90;
-    shipElement.style.left = percentage + "%"; // ✅ Now it properly moves!
+    shipElement.style.left = percentage + "%";
+
+    // Rotate ship based on movement direction
+    if (shipPosition > 5) {
+        shipElement.style.transform = "rotateY(180deg)"; // 🚀 Facing left (escaping)
+    } else {
+        shipElement.style.transform = "rotateY(0deg)"; // 🔥 Facing right (toward danger)
+    }
 }
 
 // Function to Reset the Game

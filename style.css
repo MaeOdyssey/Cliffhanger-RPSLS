@@ -37,12 +37,12 @@ h1 {
     animation: pulse 2s infinite alternate ease-in-out; /* Pulsing effect */
 }
 
-/* Enterprise (Moves Freely) */
+/* Enterprise (Now Can Rotate) */
 #enterprise {
     position: absolute;
     left: 50%;
     width: 120px;
-    transition: left 0.3s ease-in-out; /* Smooth movement */
+    transition: left 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth movement & turning */
 }
 
 /* Black Hole Warping Effect */
