@@ -39,7 +39,7 @@ function playGame(playerChoice) {
     }
 
     // Move Spock
-    updateSpockPosition();
+    animateSpockPosition();
 
     // Check if Spock Falls Off the Cliff
     if (cliffPosition === minCliffPosition) {
@@ -54,9 +54,20 @@ function playGame(playerChoice) {
     }
 }
 
-// Function to Move Spock Visually
-function updateSpockPosition() {
-    // Calculate Spock's position (from left to right)
-    const percentage = (cliffPosition / maxCliffPosition) * 80; // Adjust this range as needed
-    spockElement.style.left = percentage + "%";
+// Function to Animate Spock's Movement Smoothly
+function animateSpockPosition() {
+    const targetPosition = (100 - ((cliffPosition / maxCliffPosition) * 80)); // Invert for right-side movement
+    
+    function step() {
+        let currentPosition = parseFloat(window.getComputedStyle(spockElement).right) || 50;
+        let speed = 2; // Movement speed per frame
+        if (Math.abs(currentPosition - targetPosition) < speed) {
+            spockElement.style.right = targetPosition + "%";
+            return; // Stop animation when close enough
+        }
+        spockElement.style.right = (currentPosition + (targetPosition > currentPosition ? speed : -speed)) + "%";
+        requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
 }

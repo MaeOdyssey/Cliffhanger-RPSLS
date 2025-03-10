@@ -15,32 +15,30 @@ h1 {
     color: #333;
 }
 
-/* Spock Image */
-#spock-container {
-    margin: 20px 0;
-}
-
-/* Cliff Bar Styles */
-#cliff-container {
-    margin-top: 20px;
-}
-
-#cliff-bar {
-    width: 80%;
-    height: 20px;
-    background-color: #ddd;
-    border-radius: 10px;
-    margin: 10px auto;
+/* Game Container */
+#game-container {
     position: relative;
-    overflow: hidden; /* Ensures proper fill behavior */
+    width: 80%;
+    margin: 20px auto;
+    height: 50px;
+    border: 2px solid black;
     display: flex;
-    flex-direction: row-reverse; /* Flips the progress bar direction */
+    align-items: center;
 }
 
-#cliff-progress {
+/* Cliff Line */
+#cliff-line {
+    position: absolute;
+    left: 0;
+    width: 5px;
     height: 100%;
-    background-color: green; /* Default Safe */
-    border-radius: 10px;
-    width: 50%; /* Starts at 50% */
-    transition: width 0.3s ease-in-out, background-color 0.3s;
+    background-color: red;
+}
+
+/* Spock Emoji */
+#spock {
+    position: absolute;
+    right: 50%; /* Start in the middle */
+    font-size: 30px;
+    transition: right 0.3s ease-in-out; /* Smooth movement */
 }
