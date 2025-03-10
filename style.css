@@ -31,18 +31,10 @@ h1 {
 /* Black Hole */
 #black-hole {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    font-size: 50px;
-    animation: pulse 2s infinite alternate ease-in-out; /* Pulsing effect */
-}
-
-/* Enterprise (Now Can Rotate) */
-#enterprise {
-    position: absolute;
-    left: 50%;
-    width: 120px;
-    transition: left 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth movement & turning */
+    left: 5%;  /* Moves it a bit to the left */
+    bottom: 50%;
+    font-size: 100px;  /* ✅ Increased size */
+    animation: pulse 2s infinite alternate ease-in-out; /* ✅ Pulsing effect for realism */
 }
 
 /* Black Hole Warping Effect */
@@ -50,6 +42,17 @@ h1 {
     0% { transform: scale(1); }
     100% { transform: scale(1.2); }
 }
+
+
+/* Enterprise (Moves Freely) */
+#enterprise {
+    position: absolute;
+    left: 40%; /* ✅ Moves further from the black hole */
+    width: 140px;  /* ✅ Slightly bigger ship */
+    transition: left 0.3s ease-in-out; /* Smooth movement */
+}
+
+
 /* Star Trek-style Display Panel */
 #display-panel {
     background-color: #222;
@@ -111,6 +114,20 @@ h1 {
     50% { transform: translateX(10px); }
     75% { transform: translateX(-10px); }
 }
+
+/* Anomaly Dismiss Button - Renamed to "Acknowledge" */
+#dismiss-anomaly {
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+}
+
 
 
 

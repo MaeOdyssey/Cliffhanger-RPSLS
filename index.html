@@ -28,21 +28,26 @@
 <div id="display-panel">
     <!-- Player Action Log -->
     <div id="action-log">
-        <h3>🛠️ Maneuver Log</h3>
+        <h3>🛠️ Tactical Systems Report</h3>
         <p id="player-action">Awaiting Command...</p>
     </div>
 
     <!-- Singularity Status -->
     <div id="singularity-status">
-        <h3>🌌 Singularity Proximity</h3>
+        <h3>🌌 Gravitational Integrity</h3>
         <p id="singularity-distance">Calculating...</p>
     </div>
 
     <!-- Anomaly Alert Section -->
     <div id="anomaly-alert">
-        <h3>⚠️ Anomaly Detected</h3>
-        <p id="anomaly-message">No anomalies detected.</p>
+        <h3>⚠️ Subspace Disturbance Analysis</h3>
+        <p id="anomaly-message">All systems stable.</p>
+        <button id="dismiss-anomaly" onclick="dismissAnomaly()" style="display: none;">Acknowledge</button>
     </div>
+</div>
+
+  
+
 </div>
 </div>
     <h2 id="result"></h2>

@@ -68,9 +68,9 @@ function playGame(playerChoice) {
     // Determine outcome
     let singularityUpdate = "";
     if (playerChoice === aiChoice) {
-        singularityUpdate = "🚀 The battle is at a stalemate! No major movement occurs.";
+        singularityUpdate = "🚀 Structural balance maintained. No gravitational shift detected.";
     } else if (rules[playerChoice].includes(aiChoice)) {
-        singularityUpdate = "✅ Your maneuver succeeds! The ship resists the singularity's pull!";
+        singularityUpdate = "✅ Gravitational resistance successful. System integrity remains stable.";
         playerScore++;
 
         if (playerChoice === "core") {
@@ -79,7 +79,7 @@ function playGame(playerChoice) {
             shipPosition++;
         }
     } else {
-        singularityUpdate = "⚠️ The singularity gains the advantage, pulling the ship closer!";
+        singularityUpdate = "⚠️ Structural destabilization detected! Ship integrity compromised.";
         aiScore++;
         shipPosition--;
     }
@@ -96,31 +96,24 @@ function playGame(playerChoice) {
     // Random Space Anomalies (20% chance per turn)
     let displayPanel = document.getElementById("display-panel");
     displayPanel.classList.remove("flash", "shake"); // Reset effects
-    let anomalyMessage = "No anomalies detected.";
+    let anomalyMessage = "All systems stable.";
+    let anomalyOccurred = false;
 
     if (Math.random() < 0.2) {
         let anomalyType = Math.random();
+        anomalyOccurred = true;
 
         if (anomalyType < 0.33) {
-            anomalyMessage = "🌌 **Warp Field Surge!** A subspace fluctuation gives you a free movement boost!";
+            anomalyMessage = "🌌 **Subspace Distortion Detected!** Temporal fluctuations affecting navigation.";
             shipPosition = Math.min(shipPosition + 1, maxPosition);
             displayPanel.classList.add("flash"); // 🔥 Flash effect for power surge!
         } else if (anomalyType < 0.66) {
-            anomalyMessage = "🌀 **Gravitational Surge!** The singularity pulls the ship in even closer!";
+            anomalyMessage = "🌀 **Gravitational Instability!** Uncontrolled singularity surge detected.";
             shipPosition = Math.max(shipPosition - 1, minPosition);
             displayPanel.classList.add("shake"); // 🔥 Shake effect for intense gravity!
         } else {
-            anomalyMessage = "🪨 **Cosmic Debris Detected.** No movement, but shields absorb the impact.";
+            anomalyMessage = "🪨 **Localized Debris Field Encountered.** Shields absorbing impact.";
         }
-
-        // ✅ Make sure the anomaly message updates properly
-        document.getElementById("anomaly-message").innerText = anomalyMessage;
-
-        // ✅ Keep the anomaly message visible for 3 seconds before resetting
-        setTimeout(() => {
-            document.getElementById("anomaly-message").innerText = "No anomalies detected.";
-            displayPanel.classList.remove("flash", "shake"); // Reset effects
-        }, 3000);
     }
 
     // Move the Enterprise
@@ -131,23 +124,33 @@ function playGame(playerChoice) {
     document.getElementById("singularity-distance").innerText = singularityUpdate;
     document.getElementById("anomaly-message").innerText = anomalyMessage;
 
+    // ✅ Show the Acknowledge Button ONLY if an anomaly occurred
+    let dismissButton = document.getElementById("dismiss-anomaly");
+    if (anomalyOccurred) {
+        dismissButton.style.display = "block";
+    }
+
     // Check if the Enterprise is Lost
     if (shipPosition === minPosition) {
-        document.getElementById("singularity-distance").innerText = "💀 The USS Enterprise is lost to the singularity! The mission is over.";
+        document.getElementById("singularity-distance").innerText = "💀 Catastrophic failure. USS Enterprise lost to singularity.";
         document.getElementById("game").innerHTML = "<p>Game Over.</p>";
         replayButton.style.display = "block";
     }
 
     // Check if the Enterprise Escapes
     if (shipPosition === maxPosition) {
-        document.getElementById("singularity-distance").innerText = "🖖 The USS Enterprise has broken free! 'Fascinating. Your logic was impeccable.'";
+        document.getElementById("singularity-distance").innerText = "🖖 Escape trajectory confirmed. USS Enterprise successfully evaded gravitational collapse.";
         document.getElementById("game").innerHTML = "<p>Mission Accomplished.</p>";
         replayButton.style.display = "block";
     }
 }
 
-
-
+// ✅ Function to Dismiss Anomalies
+function dismissAnomaly() {
+    document.getElementById("anomaly-message").innerText = "All systems stable.";
+    document.getElementById("dismiss-anomaly").style.display = "none"; // Hide button
+    document.getElementById("display-panel").classList.remove("flash", "shake"); // Reset effects
+}
 
 
 // ✅ New Function: AI Chooses More Logical Responses
@@ -164,10 +167,10 @@ function determineAIResponse(playerMove) {
     return possibleResponses[Math.floor(Math.random() * possibleResponses.length)];
 }
 
-// Function to Move the Enterprise (Now Fixes Rotation)
+// Function to Move the Enterprise
 function updateShipPosition() {
     const percentage = (shipPosition / maxPosition) * 90;
-    shipElement.style.left = percentage + "%";
+    shipElement.style.left = percentage + "%"; 
 
     // Determine direction of movement
     if (shipPosition > previousPosition) {
@@ -179,6 +182,7 @@ function updateShipPosition() {
     // Update the previous position
     previousPosition = shipPosition;
 }
+
 
 // Function to Reset the Game
 function resetGame() {
