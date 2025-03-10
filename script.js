@@ -9,6 +9,7 @@ let coreEjected = false;
 let previousPosition = 5;
 const shipElement = document.getElementById("enterprise");
 const blackHoleImg = document.getElementById("blackhole-img");
+const viewscreen = document.getElementById("viewscreen");
 
 // Function to Move the Enterprise & Update the Viewscreen
 function updateShipPosition() {
@@ -17,16 +18,16 @@ function updateShipPosition() {
     shipElement.style.left = percentage + "%";
 
     // ✅ Black Hole Scaling - Includes Event Horizon Death
-    let blackHoleScale = 1 + ((maxPosition - shipPosition) * 0.2); // Closer = Bigger
+    let blackHoleScale = 1 + ((maxPosition - shipPosition) * 0.2);
     if (blackHoleScale > 3) { 
         blackHoleScale = 3;
         endGame("💀 **Critical Singularity Collapse!** The Enterprise has been consumed by the black hole.");
-        return; // ✅ Stop further updates
+        return;
     }  
     if (blackHoleScale < 0.5) {
         blackHoleScale = 0.5;
         endGame("🖖 **Escape Trajectory Achieved!** The Enterprise has successfully escaped the black hole.");
-        return; // ✅ Stop further updates
+        return;
     }
     blackHoleImg.style.transform = `scale(${blackHoleScale})`;
 
@@ -39,7 +40,16 @@ function updateShipPosition() {
     previousPosition = shipPosition;
 
     // ✅ FIXED: Corrected distance calculation
-    document.getElementById("singularity-distance").innerText = `🌌 Current Distance: ${shipPosition - minPosition} units`;
+    let distanceMessage = `🌌 Current Distance: ${shipPosition - minPosition} units`;
+    
+    // ✅ NEW: Distance Warnings
+    if (shipPosition <= 2) {
+        distanceMessage = "🚨 **EVENT HORIZON APPROACHING!** Gravitational forces increasing!";
+    } else if (shipPosition >= 9) {
+        distanceMessage = "✅ **SAFE ZONE NEARING!** Stabilization fields detected.";
+    }
+    
+    document.getElementById("singularity-distance").innerText = distanceMessage;
 }
 
 // Function to Play the Game
@@ -70,6 +80,10 @@ function playGame(playerChoice) {
         } else {
             anomalyMessage = "🪨 **Localized Debris Field Encountered.** Shields absorbing impact.";
         }
+
+        // ✅ NEW: Trigger Camera Shake When Anomalies Occur
+        viewscreen.classList.add("shake");
+        setTimeout(() => viewscreen.classList.remove("shake"), 500);
     }
 
     updateShipPosition();

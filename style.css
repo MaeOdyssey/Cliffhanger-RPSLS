@@ -7,14 +7,18 @@ body {
 }
 
 /* Starship Viewscreen */
+/* Starship Viewscreen (Now Has Borders) */
 #viewscreen {
-    width: 800px; /* ✅ Fixed width */
-    height: 250px; /* ✅ Fixed height */
+    width: 800px;
+    height: 250px;
     background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: 4px solid #ffcc00;
+    border-top: 4px solid #ffcc00; /* ✅ New Top Border */
+    border-left: 4px solid #ffcc00; /* ✅ New Left Border */
+    border-right: 4px solid #ffcc00; /* ✅ New Right Border */
     position: relative;
     overflow: hidden;
     margin: 0 auto;
@@ -29,6 +33,19 @@ body {
     transform: scale(1);
     transition: transform 0.3s ease-in-out;
 }
+
+/* Camera Shake Effect for Anomalies */
+.shake {
+    animation: shakeEffect 0.5s ease-in-out;
+}
+
+@keyframes shakeEffect {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-4px); }
+}
+
 
 /* Star Trek-style Monitor Display */
 #display-panel {
