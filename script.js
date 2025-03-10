@@ -36,8 +36,12 @@ function playGame(playerChoice) {
     } else if (rules[playerChoice].includes(aiChoice)) {
         resultText += "✅ Success! The ship resists the pull of the singularity!";
         playerScore++;
-        if (shipPosition < maxPosition) { 
-            shipPosition++;  // Move away from the black hole
+        
+        // If Core Ejection was used, move 2 steps away instead of 1
+        if (playerChoice === "core") {
+            shipPosition = Math.min(shipPosition + 2, maxPosition); // Ensures we don’t go past maxPosition
+        } else {
+            shipPosition++;  // Normal moves only go 1 step
         }
     } else {
         resultText += "⚠️ Failure! The gravitational forces pull the ship closer!";
@@ -54,7 +58,7 @@ function playGame(playerChoice) {
         }
     }
 
-    // Move the Enterprise (🚀 Fixing the movement here)
+    // Move the Enterprise
     updateShipPosition();
 
     // Check if the Enterprise is Lost
