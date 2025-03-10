@@ -50,6 +50,69 @@ h1 {
     0% { transform: scale(1); }
     100% { transform: scale(1.2); }
 }
+/* Star Trek-style Display Panel */
+#display-panel {
+    background-color: #222;
+    color: #66fcf1;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Courier New", Courier, monospace;
+    width: 90%;
+    margin: 20px auto;
+    border: 3px solid #ffcc00;
+    box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8);
+    display: flex;  /* 🛠️ Makes sections appear side by side */
+    justify-content: space-between; /* Spreads them out evenly */
+    gap: 10px; /* Adds space between sections */
+}
+
+/* Monitor Sections - Set equal width */
+#action-log, #singularity-status, #anomaly-alert {
+    border: 2px solid #ffcc00;
+    padding: 10px;
+    border-radius: 8px;
+    width: 33%;  /* 🛠️ Ensures each section takes up equal space */
+    min-height: 120px; /* Makes sure they're the same height */
+}
+
+/* Colors for Each Section */
+#action-log {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#singularity-status {
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+#anomaly-alert {
+    background-color: rgba(50, 0, 0, 0.8);
+    color: #ff6666;
+}
+
+/* Animated Flash Effect for Anomalies */
+.flash {
+    animation: flashEffect 0.5s alternate infinite;
+}
+
+@keyframes flashEffect {
+    0% { background-color: #ff0000; }
+    100% { background-color: rgba(50, 0, 0, 0.8); }
+}
+
+/* Shake Effect for Intense Anomalies */
+.shake {
+    animation: shakeEffect 0.5s ease-in-out;
+}
+
+@keyframes shakeEffect {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+}
+
+
 
 /* Replay Button */
 #replay-btn {

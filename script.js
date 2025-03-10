@@ -57,21 +57,20 @@ const aiResponses = {
 // Function to Play the Game
 function playGame(playerChoice) {
     if (playerChoice === "core" && coreEjected) {
-        document.getElementById("result").innerText = "⚠️ The warp core has already been ejected! You must find another way!";
+        document.getElementById("player-action").innerText = "⚠️ The warp core has already been ejected! You must find another way!";
         return;
     }
 
     let aiChoice = determineAIResponse(playerChoice);
-    let resultText = `${maneuverDescriptions[playerChoice]} `; // Use dynamic description
-
-    // AI dynamically reacts to the player's action
-    resultText += `\n${aiResponses[playerChoice][Math.floor(Math.random() * aiResponses[playerChoice].length)]} `;
+    let playerActionText = `${maneuverDescriptions[playerChoice]} `;
+    let aiResponseText = aiResponses[playerChoice][Math.floor(Math.random() * aiResponses[playerChoice].length)];
 
     // Determine outcome
+    let singularityUpdate = "";
     if (playerChoice === aiChoice) {
-        resultText += "\n🚀 The battle is at a stalemate! No major movement occurs.";
+        singularityUpdate = "🚀 The battle is at a stalemate! No major movement occurs.";
     } else if (rules[playerChoice].includes(aiChoice)) {
-        resultText += "\n✅ Your maneuver succeeds! The ship resists the singularity's pull!";
+        singularityUpdate = "✅ Your maneuver succeeds! The ship resists the singularity's pull!";
         playerScore++;
 
         if (playerChoice === "core") {
@@ -80,7 +79,7 @@ function playGame(playerChoice) {
             shipPosition++;
         }
     } else {
-        resultText += "\n⚠️ The singularity gains the advantage, pulling the ship closer!";
+        singularityUpdate = "⚠️ The singularity gains the advantage, pulling the ship closer!";
         aiScore++;
         shipPosition--;
     }
@@ -95,40 +94,51 @@ function playGame(playerChoice) {
     }
 
     // Random Space Anomalies (20% chance per turn)
+    let displayPanel = document.getElementById("display-panel");
+    displayPanel.classList.remove("flash", "shake"); // Reset effects
+    let anomalyMessage = "No anomalies detected.";
+
     if (Math.random() < 0.2) {
         let anomalyType = Math.random();
 
         if (anomalyType < 0.33) {
-            resultText += "\n🌌 **Warp Field Surge!** A subspace fluctuation gives you a free movement boost!";
+            anomalyMessage = "🌌 **Warp Field Surge!** A subspace fluctuation gives you a free movement boost!";
             shipPosition = Math.min(shipPosition + 1, maxPosition);
+            displayPanel.classList.add("flash"); // 🔥 Flash effect for power surge!
         } else if (anomalyType < 0.66) {
-            resultText += "\n🌀 **Gravitational Surge!** The singularity pulls the ship in even closer!";
+            anomalyMessage = "🌀 **Gravitational Surge!** The singularity pulls the ship in even closer!";
             shipPosition = Math.max(shipPosition - 1, minPosition);
+            displayPanel.classList.add("shake"); // 🔥 Shake effect for intense gravity!
         } else {
-            resultText += "\n🪨 **Cosmic Debris Detected.** No movement, but shields absorb the impact.";
+            anomalyMessage = "🪨 **Cosmic Debris Detected.** No movement, but shields absorb the impact.";
         }
     }
 
     // Move the Enterprise
     updateShipPosition();
 
-    // ✅ Make sure the result text updates on the screen!
-    document.getElementById("result").innerText = resultText;
+    // ✅ Update Each Section Separately
+    document.getElementById("player-action").innerText = playerActionText + "\n" + aiResponseText;
+    document.getElementById("singularity-distance").innerText = singularityUpdate;
+    document.getElementById("anomaly-message").innerText = anomalyMessage;
 
     // Check if the Enterprise is Lost
     if (shipPosition === minPosition) {
-        document.getElementById("result").innerText = "💀 The USS Enterprise is lost to the singularity! The mission is over.";
+        document.getElementById("singularity-distance").innerText = "💀 The USS Enterprise is lost to the singularity! The mission is over.";
         document.getElementById("game").innerHTML = "<p>Game Over.</p>";
         replayButton.style.display = "block";
     }
 
     // Check if the Enterprise Escapes
     if (shipPosition === maxPosition) {
-        document.getElementById("result").innerText = "🖖 The USS Enterprise has broken free! 'Fascinating. Your logic was impeccable.'";
+        document.getElementById("singularity-distance").innerText = "🖖 The USS Enterprise has broken free! 'Fascinating. Your logic was impeccable.'";
         document.getElementById("game").innerHTML = "<p>Mission Accomplished.</p>";
         replayButton.style.display = "block";
     }
 }
+
+
+
 
 
 // ✅ New Function: AI Chooses More Logical Responses
