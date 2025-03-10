@@ -1,73 +1,73 @@
-// RPSLS Choices
-const choices = ["rock", "paper", "scissors", "lizard", "spock"];
-
-// Rules Dictionary (who each choice beats)
-const rules = {
-    rock: ["scissors", "lizard"],
-    paper: ["rock", "spock"],
-    scissors: ["paper", "lizard"],
-    lizard: ["spock", "paper"],
-    spock: ["scissors", "rock"]
-};
-
-// Game State
-let playerScore = 0;
-let aiScore = 0;
-let cliffPosition = 5;  // Spock starts in the middle
-const minCliffPosition = 0;  // Falls off the cliff
-const maxCliffPosition = 11; // Safe distance
-const spockElement = document.getElementById("spock");
+// Track if Core Ejection is used
+let coreEjected = false;
 
 // Function to Play the Game
 function playGame(playerChoice) {
-    const aiChoice = choices[Math.floor(Math.random() * choices.length)];
+    if (playerChoice === "core" && coreEjected) {
+        document.getElementById("result").innerText = "⚠️ The warp core has already been ejected! You must find another way!";
+        return;
+    }
+
+    const aiChoice = maneuvers[Math.floor(Math.random() * maneuvers.length)];
     
-    let resultText = `You chose ${playerChoice}. AI chose ${aiChoice}. `;
+    let resultText = `You attempted **${playerChoice.toUpperCase()}**. The singularity countered with **${aiChoice.toUpperCase()}**. `;
 
     if (playerChoice === aiChoice) {
-        resultText += "It's a tie! ⚖️ Spock remains confused!";
+        resultText += "It's a stalemate! 🚀 The ship remains in its current trajectory!";
     } else if (rules[playerChoice].includes(aiChoice)) {
-        resultText += "🎉 You win this round! Spock hesitates and moves away!";
+        resultText += "✅ Success! The ship resists the pull of the singularity!";
         playerScore++;
-        if (cliffPosition < maxCliffPosition) { 
-            cliffPosition++;  // Step away from the edge
+        if (shipPosition < maxPosition) { 
+            shipPosition++;  // Move away from the black hole
         }
     } else {
-        resultText += "💀 You lost this round! Spock continues walking toward the cliff!";
+        resultText += "⚠️ Failure! The gravitational forces pull the ship closer!";
         aiScore++;
-        cliffPosition--;  // Step closer to the edge
+        shipPosition--;  // Move closer to the black hole
     }
 
-    // Move Spock
-    animateSpockPosition();
-
-    // Check if Spock Falls Off the Cliff
-    if (cliffPosition === minCliffPosition) {
-        document.getElementById("result").innerText = "😱 Spock falls! The Prime Directive has been violated!";
-        document.getElementById("game").innerHTML = "<p>Refresh to try again.</p>";
+    // If Core Ejection was used, hide the button
+    if (playerChoice === "core") {
+        coreEjected = true;
+        const coreButton = document.getElementById("core-btn");
+        if (coreButton) {
+            coreButton.style.display = "none"; // ✅ Now the button will actually disappear!
+        }
     }
 
-    // Check if Spock Escapes
-    if (cliffPosition === maxCliffPosition) {
-        document.getElementById("result").innerText = "🖖 Spock regains control! 'Fascinating. Your logic has freed me from this peril.'";
-        document.getElementById("game").innerHTML = "<p>Refresh to play again.</p>";
+    // Move the Enterprise
+    updateShipPosition();
+
+    // Check if the Enterprise is Lost
+    if (shipPosition === minPosition) {
+        document.getElementById("result").innerText = "💀 The USS Enterprise is lost to the singularity! The mission is over.";
+        document.getElementById("game").innerHTML = "<p>Game Over.</p>";
+        replayButton.style.display = "block"; // Show Replay Button
+    }
+
+    // Check if the Enterprise Escapes
+    if (shipPosition === maxPosition) {
+        document.getElementById("result").innerText = "🖖 The USS Enterprise has broken free! 'Fascinating. Your logic was impeccable.'";
+        document.getElementById("game").innerHTML = "<p>Mission Accomplished.</p>";
+        replayButton.style.display = "block"; // Show Replay Button
     }
 }
 
-// Function to Animate Spock's Movement Smoothly
-function animateSpockPosition() {
-    const targetPosition = (100 - ((cliffPosition / maxCliffPosition) * 80)); // Invert for right-side movement
-    
-    function step() {
-        let currentPosition = parseFloat(window.getComputedStyle(spockElement).right) || 50;
-        let speed = 2; // Movement speed per frame
-        if (Math.abs(currentPosition - targetPosition) < speed) {
-            spockElement.style.right = targetPosition + "%";
-            return; // Stop animation when close enough
-        }
-        spockElement.style.right = (currentPosition + (targetPosition > currentPosition ? speed : -speed)) + "%";
-        requestAnimationFrame(step);
-    }
-
-    requestAnimationFrame(step);
+// Function to Reset the Game
+function resetGame() {
+    playerScore = 0;
+    aiScore = 0;
+    shipPosition = 5;
+    coreEjected = false; // Reset core ejection state
+    document.getElementById("result").innerText = "";
+    document.getElementById("game").innerHTML = `
+        <p><strong>Choose a Maneuver:</strong></p>
+        <button onclick="playGame('integrity')">🛡️ Integrity Field Boost</button>
+        <button onclick="playGame('dampener')">🚀 Inertial Dampener Override</button>
+        <button onclick="playGame('thrusters')">🔥 Plasma Burst Thrusters</button>
+        <button id="core-btn" onclick="playGame('core')">⚠️ Emergency Core Ejection</button> <!-- ✅ Now correctly included -->
+        <button onclick="playGame('phase')">✨ Subspace Phase Shift</button>
+    `;
+    replayButton.style.display = "none"; // Hide Replay Button
+    updateShipPosition();
 }

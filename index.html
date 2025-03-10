@@ -3,30 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Save Spock RPSLS</title>
+    <title>Singularity Escape</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🖖 Save Spock from Mind Control! 🖖</h1>
-    <p>Spock is under mind control and is walking toward the cliff! Win RPSLS rounds to snap him out of it and guide him to safety.</p>
+    <h1>🚀 Singularity Escape 🚀</h1>
+    <p>The USS Enterprise is being pulled into a black hole! Use emergency maneuvers to escape!</p>
 
-    <!-- Spock and the Cliff Line -->
-    <div id="game-container">
-        <div id="cliff-line"></div>
-        <div id="spock">🖖</div>
+    <!-- The Black Hole & Enterprise -->
+    <div id="game-area">
+        <div id="black-hole">🕳️</div> 
+        <img id="enterprise" src="images/enterprise.png" alt="USS Enterprise">
     </div>
 
     <div id="game">
-        <p><strong>Choose your move:</strong></p>
-        <button onclick="playGame('rock')">🪨 Rock</button>
-        <button onclick="playGame('paper')">📜 Paper</button>
-        <button onclick="playGame('scissors')">✂️ Scissors</button>
-        <button onclick="playGame('lizard')">🦎 Lizard</button>
-        <button onclick="playGame('spock')">🖖 Spock</button>
+        <p><strong>Choose a Maneuver:</strong></p>
+        <button onclick="playGame('integrity')">🛡️ Integrity Field Boost</button>
+        <button onclick="playGame('dampener')">🚀 Inertial Dampener Override</button>
+        <button onclick="playGame('thrusters')">🔥 Plasma Burst Thrusters</button>
+        <button id="core-btn" onclick="playGame('core')">⚠️ Emergency Core Ejection</button>
+        <button onclick="playGame('phase')">✨ Subspace Phase Shift</button>
     </div>
 
     <h2 id="result"></h2>
     <p id="score"></p>
+
+    <!-- Replay Button -->
+    <button id="replay-btn" onclick="resetGame()">🔄 Play Again</button>
 
     <script src="script.js"></script>
 </body>
