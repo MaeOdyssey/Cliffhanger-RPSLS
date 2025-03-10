@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cliffhanger RPSLS</title>
+    <title>Save Spock RPSLS</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🌄 Cliffhanger RPSLS 🌄</h1>
-    <p>Each loss moves you closer to the cliff... Don't fall off!</p>
-    
+    <h1>🖖 Save Spock from Mind Control! 🖖</h1>
+    <p>Spock is under mind control and is walking toward the cliff! Win RPSLS rounds to snap him out of it and guide him to safety.</p>
+
+    <div id="spock-container">
+        <img id="spock-img" src="spock-safe.png" alt="Spock" width="150">
+    </div>
+
     <div id="game">
         <p><strong>Choose your move:</strong></p>
         <button onclick="playGame('rock')">🪨 Rock</button>
@@ -21,11 +25,11 @@
 
     <h2 id="result"></h2>
     <p id="score"></p>
-    
+
     <div id="cliff-container">
-        <p>🧍 You are <span id="cliff-text">5</span> steps from the edge.</p>
+        <p>🖖 Spock is <span id="cliff-text">5</span> steps from the edge.</p>
         <div id="cliff-bar">
-            <div id="cliff-progress" style="width: 50%;"></div>
+            <div id="cliff-progress"></div>
         </div>
     </div>
 
