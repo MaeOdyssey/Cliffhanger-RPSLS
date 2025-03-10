@@ -24,6 +24,17 @@ body {
     margin: 0 auto;
 }
 
+/* Red Alert Flashing Effect */
+.red-alert {
+    animation: redAlertEffect 0.7s alternate infinite;
+}
+
+@keyframes redAlertEffect {
+    0% { background-color: rgba(255, 0, 0, 0.4); }
+    100% { background-color: rgba(255, 0, 0, 0.1); }
+}
+
+
 /* Black Hole Image */
 #blackhole-img {
     width: 100%;
@@ -95,6 +106,18 @@ button {
     font-weight: bold;
     cursor: pointer;
 }
+
+/* 🚀 Warp Speed Animation */
+.warp-speed {
+    animation: warpEffect 1s linear;
+}
+
+@keyframes warpEffect {
+    0% { transform: scale(1) translateX(0); }
+    50% { transform: scale(1.5) translateX(30vw); opacity: 1; }
+    100% { transform: scale(2) translateX(50vw); opacity: 0; }
+}
+
 
 /* Enterprise */
 #game-area {

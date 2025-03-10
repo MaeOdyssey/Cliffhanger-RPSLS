@@ -24,11 +24,6 @@ function updateShipPosition() {
         endGame("💀 **Critical Singularity Collapse!** The Enterprise has been consumed by the black hole.");
         return;
     }  
-    if (blackHoleScale < 0.5) {
-        blackHoleScale = 0.5;
-        endGame("🖖 **Escape Trajectory Achieved!** The Enterprise has successfully escaped the black hole.");
-        return;
-    }
     blackHoleImg.style.transform = `scale(${blackHoleScale})`;
 
     if (shipPosition > previousPosition || coreEjected) {
@@ -39,17 +34,31 @@ function updateShipPosition() {
 
     previousPosition = shipPosition;
 
-    // ✅ FIXED: Corrected distance calculation
+    // ✅ Distance Calculation
     let distanceMessage = `🌌 Current Distance: ${shipPosition - minPosition} units`;
     
-    // ✅ NEW: Distance Warnings
+    // ✅ NEW: Distance Warnings + Red Alert
     if (shipPosition <= 2) {
         distanceMessage = "🚨 **EVENT HORIZON APPROACHING!** Gravitational forces increasing!";
+        viewscreen.classList.add("red-alert");
     } else if (shipPosition >= 9) {
         distanceMessage = "✅ **SAFE ZONE NEARING!** Stabilization fields detected.";
+        viewscreen.classList.remove("red-alert");
+    } else {
+        viewscreen.classList.remove("red-alert");
     }
     
     document.getElementById("singularity-distance").innerText = distanceMessage;
+
+    // ✅ NEW: Warp Speed Escape Effect
+    if (shipPosition >= maxPosition) {
+        shipElement.classList.add("warp-speed"); // 🚀 Apply warp effect
+        setTimeout(() => {
+            shipElement.style.opacity = "0"; // 🚀 Fade out
+            endGame("🖖 **Warp Drive Engaged! The Enterprise has escaped the singularity!**");
+        }, 1000);
+        return;
+    }
 }
 
 // Function to Play the Game
@@ -81,7 +90,7 @@ function playGame(playerChoice) {
             anomalyMessage = "🪨 **Localized Debris Field Encountered.** Shields absorbing impact.";
         }
 
-        // ✅ NEW: Trigger Camera Shake When Anomalies Occur
+        // ✅ Trigger Camera Shake When Anomalies Occur
         viewscreen.classList.add("shake");
         setTimeout(() => viewscreen.classList.remove("shake"), 500);
     }
