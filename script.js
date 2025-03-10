@@ -38,8 +38,8 @@ function updateShipPosition() {
 
     previousPosition = shipPosition;
 
-    // ✅ Update Gravitational Integrity (Singularity Distance)
-    document.getElementById("singularity-distance").innerText = `🌌 Current Distance: ${maxPosition - shipPosition} units`;
+    // ✅ FIXED: Corrected distance calculation
+    document.getElementById("singularity-distance").innerText = `🌌 Current Distance: ${shipPosition - minPosition} units`;
 }
 
 // Function to Play the Game
