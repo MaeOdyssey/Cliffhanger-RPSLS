@@ -76,18 +76,25 @@ function playGame(playerChoice) {
     }
 }
 
-// Function to Move the Enterprise (Now Includes Rotation)
+// Track the previous position for movement detection
+let previousPosition = 5;
+
+// Function to Move the Enterprise (Now Fixes Rotation)
 function updateShipPosition() {
     const percentage = (shipPosition / maxPosition) * 90;
     shipElement.style.left = percentage + "%";
 
-    // Rotate ship based on movement direction
-    if (shipPosition > 5) {
+    // Determine direction of movement
+    if (shipPosition > previousPosition) {
         shipElement.style.transform = "rotateY(180deg)"; // 🚀 Facing left (escaping)
-    } else {
+    } else if (shipPosition < previousPosition) {
         shipElement.style.transform = "rotateY(0deg)"; // 🔥 Facing right (toward danger)
     }
+
+    // Update the previous position
+    previousPosition = shipPosition;
 }
+
 
 // Function to Reset the Game
 function resetGame() {
