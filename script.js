@@ -13,7 +13,8 @@ const rules = {
 // Game State
 let playerScore = 0;
 let aiScore = 0;
-let cliffPosition = 5; // The player starts at a safe distance from the edge
+let cliffPosition = 5;  // Player starts 5 steps from the edge
+const maxCliffPosition = 10;  // Maximum distance from the edge
 
 // Function to Play the Game
 function playGame(playerChoice) {
@@ -26,10 +27,13 @@ function playGame(playerChoice) {
     } else if (rules[playerChoice].includes(aiChoice)) {
         resultText += "🎉 You win this round!";
         playerScore++;
+        if (cliffPosition < maxCliffPosition) { 
+            cliffPosition++;  // Step away from the edge (max limit)
+        }
     } else {
         resultText += "💀 You lost this round!";
         aiScore++;
-        cliffPosition--; // Move closer to the edge
+        cliffPosition--;  // Step closer to the edge
     }
 
     // Update Display
