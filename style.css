@@ -15,6 +15,11 @@ h1 {
     color: #333;
 }
 
+/* Spock Image */
+#spock-container {
+    margin: 20px 0;
+}
+
 /* Cliff Bar Styles */
 #cliff-container {
     margin-top: 20px;
@@ -27,12 +32,15 @@ h1 {
     border-radius: 10px;
     margin: 10px auto;
     position: relative;
+    overflow: hidden; /* Ensures proper fill behavior */
+    display: flex;
+    flex-direction: row-reverse; /* Flips the progress bar direction */
 }
 
 #cliff-progress {
     height: 100%;
-    background-color: #28a745; /* Green for safety */
+    background-color: green; /* Default Safe */
     border-radius: 10px;
     width: 50%; /* Starts at 50% */
-    transition: width 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out, background-color 0.3s;
 }

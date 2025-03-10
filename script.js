@@ -55,7 +55,7 @@ function playGame(playerChoice) {
     }
 }
 
-// Function to Update Cliff UI
+// Function to Update Cliff UI (Flipped Direction)
 function updateCliffUI() {
     const cliffBar = document.getElementById("cliff-progress");
     const cliffText = document.getElementById("cliff-text");
@@ -63,8 +63,8 @@ function updateCliffUI() {
     // Update text
     cliffText.innerText = cliffPosition;
 
-    // Update bar width (scale between 0% and 100%)
-    const percentage = (cliffPosition / maxCliffPosition) * 100;
+    // Flip the percentage calculation so the bar shrinks left
+    const percentage = ((cliffPosition - minCliffPosition) / (maxCliffPosition - minCliffPosition)) * 100;
     cliffBar.style.width = percentage + "%";
 
     // Change colors based on danger level
