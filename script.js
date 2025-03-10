@@ -20,6 +20,7 @@ let coreEjected = false;
 const shipElement = document.getElementById("enterprise");
 const replayButton = document.getElementById("replay-btn");
 
+
 // Function to Play the Game
 function playGame(playerChoice) {
     if (playerChoice === "core" && coreEjected) {
@@ -36,17 +37,17 @@ function playGame(playerChoice) {
     } else if (rules[playerChoice].includes(aiChoice)) {
         resultText += "✅ Success! The ship resists the pull of the singularity!";
         playerScore++;
-        
-        // If Core Ejection was used, move 2 steps away instead of 1
+
+        // Core Ejection gives a 2-step boost
         if (playerChoice === "core") {
-            shipPosition = Math.min(shipPosition + 2, maxPosition); // Ensures we don’t go past maxPosition
+            shipPosition = Math.min(shipPosition + 2, maxPosition);
         } else {
-            shipPosition++;  // Normal moves only go 1 step
+            shipPosition++;
         }
     } else {
         resultText += "⚠️ Failure! The gravitational forces pull the ship closer!";
         aiScore++;
-        shipPosition--;  // Move closer to the black hole
+        shipPosition--;
     }
 
     // If Core Ejection was used, hide the button
@@ -58,23 +59,46 @@ function playGame(playerChoice) {
         }
     }
 
+    // Random Space Anomalies (20% chance per turn)
+    if (Math.random() < 0.2) {
+        let anomalyType = Math.random();
+
+        if (anomalyType < 0.33) {
+            // Good Anomaly - Warp Field Surge
+            resultText += " 🌌 **Warp Field Surge!** A subspace fluctuation gives you a free movement boost!";
+            shipPosition = Math.min(shipPosition + 1, maxPosition);
+        } else if (anomalyType < 0.66) {
+            // Bad Anomaly - Gravitational Surge
+            resultText += " 🌀 **Gravitational Surge!** The singularity pulls the ship in even closer!";
+            shipPosition = Math.max(shipPosition - 1, minPosition);
+        } else {
+            // Neutral Anomaly - Cosmic Debris
+            resultText += " 🪨 **Cosmic Debris Detected.** No movement, but shields absorb the impact.";
+        }
+    }
+
     // Move the Enterprise
     updateShipPosition();
+
+    // ✅ Make sure the result text updates on the screen!
+    document.getElementById("result").innerText = resultText;
 
     // Check if the Enterprise is Lost
     if (shipPosition === minPosition) {
         document.getElementById("result").innerText = "💀 The USS Enterprise is lost to the singularity! The mission is over.";
         document.getElementById("game").innerHTML = "<p>Game Over.</p>";
-        replayButton.style.display = "block"; // Show Replay Button
+        replayButton.style.display = "block";
     }
 
     // Check if the Enterprise Escapes
     if (shipPosition === maxPosition) {
         document.getElementById("result").innerText = "🖖 The USS Enterprise has broken free! 'Fascinating. Your logic was impeccable.'";
         document.getElementById("game").innerHTML = "<p>Mission Accomplished.</p>";
-        replayButton.style.display = "block"; // Show Replay Button
+        replayButton.style.display = "block";
     }
 }
+
+
 
 // Track the previous position for movement detection
 let previousPosition = 5;
