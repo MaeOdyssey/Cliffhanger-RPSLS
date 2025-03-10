@@ -112,6 +112,15 @@ function playGame(playerChoice) {
         } else {
             anomalyMessage = "🪨 **Cosmic Debris Detected.** No movement, but shields absorb the impact.";
         }
+
+        // ✅ Make sure the anomaly message updates properly
+        document.getElementById("anomaly-message").innerText = anomalyMessage;
+
+        // ✅ Keep the anomaly message visible for 3 seconds before resetting
+        setTimeout(() => {
+            document.getElementById("anomaly-message").innerText = "No anomalies detected.";
+            displayPanel.classList.remove("flash", "shake"); // Reset effects
+        }, 3000);
     }
 
     // Move the Enterprise
