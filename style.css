@@ -1,82 +1,53 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #0b0c10;
-    color: white;
-}
-
-button {
-    margin: 5px;
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #1f2833;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-
-h1 {
+    background-color: black;
     color: #66fcf1;
-}
-
-/* Game Area */
-#game-area {
-    position: relative;
-    width: 100%;
-    height: 100px;
-    margin: 40px auto;
-}
-
-/* Black Hole */
-#black-hole {
-    position: absolute;
-    left: 5%;  /* Moves it a bit to the left */
-    bottom: 50%;
-    font-size: 100px;  /* ✅ Increased size */
-    animation: pulse 2s infinite alternate ease-in-out; /* ✅ Pulsing effect for realism */
-}
-
-/* Black Hole Warping Effect */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.2); }
-}
-
-
-/* Enterprise (Moves Freely) */
-#enterprise {
-    position: absolute;
-    left: 40%; /* ✅ Moves further from the black hole */
-    width: 140px;  /* ✅ Slightly bigger ship */
-    transition: left 0.3s ease-in-out; /* Smooth movement */
-}
-
-
-/* Star Trek-style Display Panel */
-#display-panel {
-    background-color: #222;
-    color: #66fcf1;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
     font-family: "Courier New", Courier, monospace;
+    text-align: center;
+}
+
+/* Starship Viewscreen */
+#viewscreen {
+    width: 800px; /* ✅ Fixed width */
+    height: 250px; /* ✅ Fixed height */
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 4px solid #ffcc00;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Black Hole Image */
+#blackhole-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Star Trek-style Monitor Display */
+#display-panel {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
     width: 90%;
     margin: 20px auto;
     border: 3px solid #ffcc00;
     box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8);
-    display: flex;  /* 🛠️ Makes sections appear side by side */
-    justify-content: space-between; /* Spreads them out evenly */
-    gap: 10px; /* Adds space between sections */
 }
 
-/* Monitor Sections - Set equal width */
+/* Monitor Sections */
 #action-log, #singularity-status, #anomaly-alert {
     border: 2px solid #ffcc00;
     padding: 10px;
     border-radius: 8px;
-    width: 33%;  /* 🛠️ Ensures each section takes up equal space */
-    min-height: 120px; /* Makes sure they're the same height */
+    width: 33%;
+    min-height: 120px;
 }
 
 /* Colors for Each Section */
@@ -93,53 +64,31 @@ h1 {
     color: #ff6666;
 }
 
-/* Animated Flash Effect for Anomalies */
-.flash {
-    animation: flashEffect 0.5s alternate infinite;
+/* Controls */
+#controls {
+    margin: 20px;
 }
 
-@keyframes flashEffect {
-    0% { background-color: #ff0000; }
-    100% { background-color: rgba(50, 0, 0, 0.8); }
-}
-
-/* Shake Effect for Intense Anomalies */
-.shake {
-    animation: shakeEffect 0.5s ease-in-out;
-}
-
-@keyframes shakeEffect {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    50% { transform: translateX(10px); }
-    75% { transform: translateX(-10px); }
-}
-
-/* Anomaly Dismiss Button - Renamed to "Acknowledge" */
-#dismiss-anomaly {
-    margin-top: 5px;
-    padding: 5px 10px;
+button {
+    margin: 5px;
+    padding: 10px;
     background-color: #ffcc00;
-    color: black;
     border: none;
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
-    display: none;
 }
 
+/* Enterprise */
+#game-area {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
 
-
-
-/* Replay Button */
-#replay-btn {
-    display: none;
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    background-color: #45a29e;
-    color: white;
-    border: none;
-    border-radius: 5px;
+#enterprise {
+    position: absolute;
+    left: 40%;
+    width: 140px;
+    transition: left 0.3s ease-in-out;
 }

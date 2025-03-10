@@ -1,205 +1,52 @@
-// List of maneuvers
-const maneuvers = ["integrity", "dampener", "thrusters", "core", "phase"];
+// Ensure script is running
+console.log("Script is running!");
 
-// Maneuver Rules (Star Trek Logic!)
-const rules = {
-    integrity: ["thrusters", "core"], // Shields hold against thrust & mass ejection
-    dampener: ["phase", "integrity"], // Dampeners neutralize subspace shift & stabilizers
-    thrusters: ["dampener", "core"], // Plasma thrust overrides dampeners & pushes debris
-    core: ["integrity", "dampener"], // Ejecting mass breaks free of shields & dampener effects
-    phase: ["thrusters", "core"], // Subspace shift bypasses physical forces
-};
-
-// Game State
-let playerScore = 0;
-let aiScore = 0;
-let shipPosition = 5;  // Enterprise starts in the middle
-const minPosition = 0;  // Falls into the black hole
-const maxPosition = 11; // Safely escapes gravity
+// Global variables
+let shipPosition = 5;
+const minPosition = 0;
+const maxPosition = 11;
 let coreEjected = false;
 let previousPosition = 5;
 const shipElement = document.getElementById("enterprise");
-const replayButton = document.getElementById("replay-btn");
 
-// Descriptions for player choices
-const maneuverDescriptions = {
-    integrity: "You activated the **Structural Integrity Field**, reinforcing shields!",
-    dampener: "You engaged the **Inertial Dampeners**, stabilizing ship movement!",
-    thrusters: "You fired the **Plasma Thrusters**, pushing the ship away from the singularity!",
-    core: "You **ejected the Warp Core**, using its explosion to break free!",
-    phase: "You initiated a **Subspace Phase Shift**, attempting to escape normal space!"
-};
-
-// AI responses that match player actions
-const aiResponses = {
-    integrity: [
-        "The singularity counteracts with a **Gravitational Compression Wave**!",
-        "The black hole intensifies its pull, testing the strength of your shields!"
-    ],
-    dampener: [
-        "The singularity destabilizes space, disrupting your dampeners!",
-        "A **Subspace Disturbance** causes unexpected turbulence!"
-    ],
-    thrusters: [
-        "A **Gravity Well Fluctuation** resists your thrusters, slowing your movement!",
-        "The singularity counters with **Inertial Drag**, making it harder to accelerate!"
-    ],
-    core: [
-        "The singularity **pulls even harder**, consuming the expelled warp core!",
-        "The explosion momentarily disrupts gravity, but the pull remains strong!"
-    ],
-    phase: [
-        "The singularity reacts with **Spatial Distortions**, making escape difficult!",
-        "A **Quantum Singularity Surge** tries to keep you anchored in normal space!"
-    ]
-};
-
-// Function to Play the Game
-function playGame(playerChoice) {
-    if (playerChoice === "core" && coreEjected) {
-        document.getElementById("player-action").innerText = "⚠️ The warp core has already been ejected! You must find another way!";
-        return;
-    }
-
-    let aiChoice = determineAIResponse(playerChoice);
-    let playerActionText = `${maneuverDescriptions[playerChoice]} `;
-    let aiResponseText = aiResponses[playerChoice][Math.floor(Math.random() * aiResponses[playerChoice].length)];
-
-    // Determine outcome
-    let singularityUpdate = "";
-    if (playerChoice === aiChoice) {
-        singularityUpdate = "🚀 Structural balance maintained. No gravitational shift detected.";
-    } else if (rules[playerChoice].includes(aiChoice)) {
-        singularityUpdate = "✅ Gravitational resistance successful. System integrity remains stable.";
-        playerScore++;
-
-        if (playerChoice === "core") {
-            shipPosition = Math.min(shipPosition + 2, maxPosition);
-        } else {
-            shipPosition++;
-        }
-    } else {
-        singularityUpdate = "⚠️ Structural destabilization detected! Ship integrity compromised.";
-        aiScore++;
-        shipPosition--;
-    }
-
-    // If Core Ejection was used, hide the button
-    if (playerChoice === "core") {
-        coreEjected = true;
-        const coreButton = document.getElementById("core-btn");
-        if (coreButton) {
-            coreButton.style.display = "none"; 
-        }
-    }
-
-    // Random Space Anomalies (20% chance per turn)
-    let displayPanel = document.getElementById("display-panel");
-    displayPanel.classList.remove("flash", "shake"); // Reset effects
-    let anomalyMessage = "All systems stable.";
-    let anomalyOccurred = false;
-
-    if (Math.random() < 0.2) {
-        let anomalyType = Math.random();
-        anomalyOccurred = true;
-
-        if (anomalyType < 0.33) {
-            anomalyMessage = "🌌 **Subspace Distortion Detected!** Temporal fluctuations affecting navigation.";
-            shipPosition = Math.min(shipPosition + 1, maxPosition);
-            displayPanel.classList.add("flash"); // 🔥 Flash effect for power surge!
-        } else if (anomalyType < 0.66) {
-            anomalyMessage = "🌀 **Gravitational Instability!** Uncontrolled singularity surge detected.";
-            shipPosition = Math.max(shipPosition - 1, minPosition);
-            displayPanel.classList.add("shake"); // 🔥 Shake effect for intense gravity!
-        } else {
-            anomalyMessage = "🪨 **Localized Debris Field Encountered.** Shields absorbing impact.";
-        }
-    }
-
-    // Move the Enterprise
-    updateShipPosition();
-
-    // ✅ Update Each Section Separately
-    document.getElementById("player-action").innerText = playerActionText + "\n" + aiResponseText;
-    document.getElementById("singularity-distance").innerText = singularityUpdate;
-    document.getElementById("anomaly-message").innerText = anomalyMessage;
-
-    // ✅ Show the Acknowledge Button ONLY if an anomaly occurred
-    let dismissButton = document.getElementById("dismiss-anomaly");
-    if (anomalyOccurred) {
-        dismissButton.style.display = "block";
-    }
-
-    // Check if the Enterprise is Lost
-    if (shipPosition === minPosition) {
-        document.getElementById("singularity-distance").innerText = "💀 Catastrophic failure. USS Enterprise lost to singularity.";
-        document.getElementById("game").innerHTML = "<p>Game Over.</p>";
-        replayButton.style.display = "block";
-    }
-
-    // Check if the Enterprise Escapes
-    if (shipPosition === maxPosition) {
-        document.getElementById("singularity-distance").innerText = "🖖 Escape trajectory confirmed. USS Enterprise successfully evaded gravitational collapse.";
-        document.getElementById("game").innerHTML = "<p>Mission Accomplished.</p>";
-        replayButton.style.display = "block";
-    }
-}
-
-// ✅ Function to Dismiss Anomalies
-function dismissAnomaly() {
-    document.getElementById("anomaly-message").innerText = "All systems stable.";
-    document.getElementById("dismiss-anomaly").style.display = "none"; // Hide button
-    document.getElementById("display-panel").classList.remove("flash", "shake"); // Reset effects
-}
-
-
-// ✅ New Function: AI Chooses More Logical Responses
-function determineAIResponse(playerMove) {
-    const aiResponses = {
-        integrity: ["thrusters", "gravitational_surge"], // If player strengthens shields, anomaly tries to push harder
-        dampener: ["phase", "subspace_disruption"], // If player stabilizes ship, anomaly tries to destabilize space
-        thrusters: ["integrity", "inertial_drag"], // If player boosts thrusters, anomaly resists movement
-        core: ["gravitational_surge", "cosmic_disruption"], // If player ejects core, singularity pulls harder
-        phase: ["dampener", "gravity_distortion"] // If player phase-shifts, anomaly tries to keep them in normal space
-    };
-
-    const possibleResponses = aiResponses[playerMove] || ["gravitational_surge"]; // Default fallback if something goes wrong
-    return possibleResponses[Math.floor(Math.random() * possibleResponses.length)];
-}
-
-// Function to Move the Enterprise
+// Function to Move the Enterprise & Update the Viewscreen
 function updateShipPosition() {
+    console.log("Updating ship position...");
     const percentage = (shipPosition / maxPosition) * 90;
-    shipElement.style.left = percentage + "%"; 
+    shipElement.style.left = percentage + "%";
 
-    // Determine direction of movement
-    if (shipPosition > previousPosition) {
-        shipElement.style.transform = "rotateY(180deg)"; // 🚀 Facing left (escaping)
+    let blackHoleScale = 1 + ((maxPosition - shipPosition) * 0.2); 
+    if (blackHoleScale > 2.5) blackHoleScale = 2.5; 
+    document.getElementById("blackhole-img").style.transform = `scale(${blackHoleScale})`;
+
+    if (shipPosition > previousPosition || coreEjected) {
+        shipElement.style.transform = "rotateY(180deg)";
     } else if (shipPosition < previousPosition) {
-        shipElement.style.transform = "rotateY(0deg)"; // 🔥 Facing right (toward danger)
+        shipElement.style.transform = "rotateY(0deg)";
     }
 
-    // Update the previous position
     previousPosition = shipPosition;
 }
 
+// Function to Play the Game
+function playGame(playerChoice) {
+    console.log("playGame() function is running! Player chose:", playerChoice);
 
-// Function to Reset the Game
-function resetGame() {
-    playerScore = 0;
-    aiScore = 0;
-    shipPosition = 5;
-    coreEjected = false; // Reset core ejection state
-    previousPosition = 5;
-    document.getElementById("result").innerText = "";
-    document.getElementById("game").innerHTML = `
-        <p><strong>Choose a Maneuver:</strong></p>
-        <button onclick="playGame('integrity')">🛡️ Integrity Field Boost</button>
-        <button onclick="playGame('dampener')">🚀 Inertial Dampener Override</button>
-        <button onclick="playGame('thrusters')">🔥 Plasma Burst Thrusters</button>
-        <button id="core-btn" onclick="playGame('core')">⚠️ Emergency Core Ejection</button>
-        <button onclick="playGame('phase')">✨ Subspace Phase Shift</button>
-    `;
-    replayButton.style.display = "none"; // Hide Replay Button
+    let singularityUpdate = "";
+    if (playerChoice === "core" && coreEjected) {
+        document.getElementById("player-action").innerText = "⚠️ The warp core has already been ejected!";
+        return;
+    }
+
+    shipPosition += playerChoice === "core" ? 2 : 1;
     updateShipPosition();
+
+    document.getElementById("player-action").innerText = `🛠️ Executed: ${playerChoice.toUpperCase()}`;
+    document.getElementById("singularity-distance").innerText = singularityUpdate;
+}
+
+// Function to Dismiss Anomalies
+function dismissAnomaly() {
+    document.getElementById("anomaly-message").innerText = "All systems stable.";
+    document.getElementById("dismiss-anomaly").style.display = "none";
 }
