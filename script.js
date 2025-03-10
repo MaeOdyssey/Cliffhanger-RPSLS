@@ -1,5 +1,24 @@
-// Track if Core Ejection is used
+// List of maneuvers
+const maneuvers = ["integrity", "dampener", "thrusters", "core", "phase"];
+
+// Maneuver Rules (Star Trek Logic!)
+const rules = {
+    integrity: ["thrusters", "core"], // Shields hold against thrust & mass ejection
+    dampener: ["phase", "integrity"], // Dampeners neutralize subspace shift & stabilizers
+    thrusters: ["dampener", "core"], // Plasma thrust overrides dampeners & pushes debris
+    core: ["integrity", "dampener"], // Ejecting mass breaks free of shields & dampener effects
+    phase: ["thrusters", "core"], // Subspace shift bypasses physical forces
+};
+
+// Game State
+let playerScore = 0;
+let aiScore = 0;
+let shipPosition = 5;  // Enterprise starts in the middle
+const minPosition = 0;  // Falls into the black hole
+const maxPosition = 11; // Safely escapes gravity
 let coreEjected = false;
+const shipElement = document.getElementById("enterprise");
+const replayButton = document.getElementById("replay-btn");
 
 // Function to Play the Game
 function playGame(playerChoice) {
@@ -31,11 +50,11 @@ function playGame(playerChoice) {
         coreEjected = true;
         const coreButton = document.getElementById("core-btn");
         if (coreButton) {
-            coreButton.style.display = "none"; // ✅ Now the button will actually disappear!
+            coreButton.style.display = "none"; // Button disappears!
         }
     }
 
-    // Move the Enterprise
+    // Move the Enterprise (🚀 Fixing the movement here)
     updateShipPosition();
 
     // Check if the Enterprise is Lost
@@ -53,6 +72,12 @@ function playGame(playerChoice) {
     }
 }
 
+// Function to Move the Enterprise
+function updateShipPosition() {
+    const percentage = (shipPosition / maxPosition) * 90;
+    shipElement.style.left = percentage + "%"; // ✅ Now it properly moves!
+}
+
 // Function to Reset the Game
 function resetGame() {
     playerScore = 0;
@@ -65,9 +90,11 @@ function resetGame() {
         <button onclick="playGame('integrity')">🛡️ Integrity Field Boost</button>
         <button onclick="playGame('dampener')">🚀 Inertial Dampener Override</button>
         <button onclick="playGame('thrusters')">🔥 Plasma Burst Thrusters</button>
-        <button id="core-btn" onclick="playGame('core')">⚠️ Emergency Core Ejection</button> <!-- ✅ Now correctly included -->
+        <button id="core-btn" onclick="playGame('core')">⚠️ Emergency Core Ejection</button>
         <button onclick="playGame('phase')">✨ Subspace Phase Shift</button>
     `;
     replayButton.style.display = "none"; // Hide Replay Button
+
+    // Re-add the Enterprise movement
     updateShipPosition();
 }
