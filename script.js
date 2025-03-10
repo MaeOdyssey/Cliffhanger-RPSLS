@@ -14,7 +14,8 @@ const rules = {
 let playerScore = 0;
 let aiScore = 0;
 let cliffPosition = 5;  // Player starts 5 steps from the edge
-const maxCliffPosition = 10;  // Maximum distance from the edge
+const minCliffPosition = 0;  // Falling off the cliff
+const maxCliffPosition = 11; // Escaping successfully
 
 // Function to Play the Game
 function playGame(playerChoice) {
@@ -28,7 +29,7 @@ function playGame(playerChoice) {
         resultText += "🎉 You win this round!";
         playerScore++;
         if (cliffPosition < maxCliffPosition) { 
-            cliffPosition++;  // Step away from the edge (max limit)
+            cliffPosition++;  // Step away from the edge
         }
     } else {
         resultText += "💀 You lost this round!";
@@ -36,14 +37,31 @@ function playGame(playerChoice) {
         cliffPosition--;  // Step closer to the edge
     }
 
-    // Update Display
-    document.getElementById("result").innerText = resultText;
-    document.getElementById("score").innerText = `Score - You: ${playerScore} | AI: ${aiScore}`;
-    document.getElementById("cliff").innerText = `🧍 You are ${cliffPosition} steps from the edge.`;
+    // Update Cliff Bar
+    updateCliffUI();
 
     // Check if Player Falls Off the Cliff
-    if (cliffPosition === 0) {
+    if (cliffPosition === minCliffPosition) {
         document.getElementById("result").innerText = "😱 You slipped and fell off the cliff! Game over.";
         document.getElementById("game").innerHTML = "<p>Refresh to play again.</p>";
     }
+
+    // Check if Player Successfully Escapes
+    if (cliffPosition === maxCliffPosition) {
+        document.getElementById("result").innerText = "🖖 Fascinating. You have successfully moonwalked away from danger. Live long and prosper!";
+        document.getElementById("game").innerHTML = "<p>Refresh to play again.</p>";
+    }
+}
+
+// Function to Update Cliff UI
+function updateCliffUI() {
+    const cliffBar = document.getElementById("cliff-progress");
+    const cliffText = document.getElementById("cliff-text");
+
+    // Update text
+    cliffText.innerText = cliffPosition;
+
+    // Update bar width (scale between 0% and 100%)
+    const percentage = (cliffPosition / maxCliffPosition) * 100;
+    cliffBar.style.width = percentage + "%";
 }
