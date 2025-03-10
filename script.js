@@ -21,6 +21,39 @@ let previousPosition = 5;
 const shipElement = document.getElementById("enterprise");
 const replayButton = document.getElementById("replay-btn");
 
+// Descriptions for player choices
+const maneuverDescriptions = {
+    integrity: "You activated the **Structural Integrity Field**, reinforcing shields!",
+    dampener: "You engaged the **Inertial Dampeners**, stabilizing ship movement!",
+    thrusters: "You fired the **Plasma Thrusters**, pushing the ship away from the singularity!",
+    core: "You **ejected the Warp Core**, using its explosion to break free!",
+    phase: "You initiated a **Subspace Phase Shift**, attempting to escape normal space!"
+};
+
+// AI responses that match player actions
+const aiResponses = {
+    integrity: [
+        "The singularity counteracts with a **Gravitational Compression Wave**!",
+        "The black hole intensifies its pull, testing the strength of your shields!"
+    ],
+    dampener: [
+        "The singularity destabilizes space, disrupting your dampeners!",
+        "A **Subspace Disturbance** causes unexpected turbulence!"
+    ],
+    thrusters: [
+        "A **Gravity Well Fluctuation** resists your thrusters, slowing your movement!",
+        "The singularity counters with **Inertial Drag**, making it harder to accelerate!"
+    ],
+    core: [
+        "The singularity **pulls even harder**, consuming the expelled warp core!",
+        "The explosion momentarily disrupts gravity, but the pull remains strong!"
+    ],
+    phase: [
+        "The singularity reacts with **Spatial Distortions**, making escape difficult!",
+        "A **Quantum Singularity Surge** tries to keep you anchored in normal space!"
+    ]
+};
+
 // Function to Play the Game
 function playGame(playerChoice) {
     if (playerChoice === "core" && coreEjected) {
@@ -28,25 +61,26 @@ function playGame(playerChoice) {
         return;
     }
 
-    // AI now chooses a more logical response instead of picking randomly
     let aiChoice = determineAIResponse(playerChoice);
+    let resultText = `${maneuverDescriptions[playerChoice]} `; // Use dynamic description
 
-    let resultText = `You attempted **${playerChoice.toUpperCase()}**. The singularity countered with **${aiChoice.toUpperCase()}**. `;
+    // AI dynamically reacts to the player's action
+    resultText += `\n${aiResponses[playerChoice][Math.floor(Math.random() * aiResponses[playerChoice].length)]} `;
 
+    // Determine outcome
     if (playerChoice === aiChoice) {
-        resultText += "It's a stalemate! 🚀 The ship remains in its current trajectory!";
+        resultText += "\n🚀 The battle is at a stalemate! No major movement occurs.";
     } else if (rules[playerChoice].includes(aiChoice)) {
-        resultText += "✅ Success! The ship resists the pull of the singularity!";
+        resultText += "\n✅ Your maneuver succeeds! The ship resists the singularity's pull!";
         playerScore++;
 
-        // Core Ejection gives a 2-step boost
         if (playerChoice === "core") {
             shipPosition = Math.min(shipPosition + 2, maxPosition);
         } else {
             shipPosition++;
         }
     } else {
-        resultText += "⚠️ Warning! The gravitational forces are pulling the ship closer!";
+        resultText += "\n⚠️ The singularity gains the advantage, pulling the ship closer!";
         aiScore++;
         shipPosition--;
     }
@@ -65,13 +99,13 @@ function playGame(playerChoice) {
         let anomalyType = Math.random();
 
         if (anomalyType < 0.33) {
-            resultText += " 🌌 **Warp Field Surge!** A subspace fluctuation gives you a free movement boost!";
+            resultText += "\n🌌 **Warp Field Surge!** A subspace fluctuation gives you a free movement boost!";
             shipPosition = Math.min(shipPosition + 1, maxPosition);
         } else if (anomalyType < 0.66) {
-            resultText += " 🌀 **Gravitational Surge!** The singularity pulls the ship in even closer!";
+            resultText += "\n🌀 **Gravitational Surge!** The singularity pulls the ship in even closer!";
             shipPosition = Math.max(shipPosition - 1, minPosition);
         } else {
-            resultText += " 🪨 **Cosmic Debris Detected.** No movement, but shields absorb the impact.";
+            resultText += "\n🪨 **Cosmic Debris Detected.** No movement, but shields absorb the impact.";
         }
     }
 
@@ -95,6 +129,7 @@ function playGame(playerChoice) {
         replayButton.style.display = "block";
     }
 }
+
 
 // ✅ New Function: AI Chooses More Logical Responses
 function determineAIResponse(playerMove) {
