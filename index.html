@@ -10,8 +10,10 @@
     <h1>🖖 Save Spock from Mind Control! 🖖</h1>
     <p>Spock is under mind control and is walking toward the cliff! Win RPSLS rounds to snap him out of it and guide him to safety.</p>
 
-    <div id="spock-container">
-        <img id="spock-img" src="spock-safe.png" alt="Spock" width="150">
+    <!-- Spock and the Cliff Line -->
+    <div id="game-container">
+        <div id="cliff-line"></div>
+        <div id="spock">🖖</div>
     </div>
 
     <div id="game">
@@ -25,13 +27,6 @@
 
     <h2 id="result"></h2>
     <p id="score"></p>
-
-    <div id="cliff-container">
-        <p>🖖 Spock is <span id="cliff-text">5</span> steps from the edge.</p>
-        <div id="cliff-bar">
-            <div id="cliff-progress"></div>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
