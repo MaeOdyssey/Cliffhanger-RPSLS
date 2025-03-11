@@ -10,6 +10,7 @@ export class LCARS {
             distanceMessage = "🚨 **RED ALERT! Critical Danger!**";
             this.viewscreen.classList.add("red-alert");
             this.warningSections.forEach(section => {
+                section.classList.add("red-alert");
                 section.classList.add("lcars-flash");
                 section.style.color = "red"; // ✅ Ensures visibility
                 section.style.fontWeight = "bold"; // ✅ Makes it pop
@@ -19,6 +20,7 @@ export class LCARS {
             this.viewscreen.classList.remove("red-alert");
             this.warningSections.forEach(section => {
                 section.classList.remove("lcars-flash");
+                section.classList.remove("red-alert");
                 section.style.color = "white"; // ✅ Resets to normal
                 section.style.fontWeight = "normal";
             });

@@ -1,6 +1,6 @@
 export class Maneuver {
     static maneuvers = {
-        "thrusters": { name: "Thrusters", movement: 2, effect: "Propelled ship forward." },
+        "thrusters": { name: "Thrusters", movement: 2, effect: "Propelled ship away." },
         "shields": { name: "Raise Shields", movement: 0, effect: "Defensive measure activated." },
         "core": { name: "Eject Warp Core", movement: 3, effect: "Massive energy burst—ship moves faster!" },
         "dampener": { name: "Inertial Dampeners", movement: -3, effect: "Resisted singularity pull! Ship halts movement." },

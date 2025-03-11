@@ -18,15 +18,22 @@ function playMove(playerChoice) {
         return;
     }
 
-    // 🚀 Warp Core Ejection Limiter
-    let coreButton = document.getElementById("core-btn");
-    if (playerChoice === "core" && coreButton) {
-        coreButton.disabled = true; // ✅ Disables the button
-        coreButton.innerText = "⚠️ Core Ejected!";
-    }
+        // ✅ Fix: Ensure core button disappears after one use
+        let coreButton = document.getElementById("core-btn");
+        if (playerChoice === "core" && coreButton && !coreButton.disabled) {
+            coreButton.disabled = true;
+            coreButton.innerText = "⚠️ Core Ejected!";
+            console.log("💥 Warp core has been ejected!");
+        } else if (playerChoice === "core" && coreButton.disabled) {
+            console.warn("❌ Warp core has already been ejected!");
+            return; // 🚀 Prevents it from doing anything again!
+        }
 
     ship.move(maneuver.movement);
     document.getElementById("player-action").innerText = `🛠️ ${maneuver.name} - ${maneuver.effect}`;
+
+    // ✅ Black Hole Takes Its Turn
+    blackHole.takeAction(ship);
 
     // ✅ Check Win/Lose Conditions
     checkWinLose();
@@ -35,6 +42,7 @@ function playMove(playerChoice) {
     blackHole.updateScale(ship.position);
     LCARS.updateUI(ship);
 }
+
 // ✅ Function to End the Game
 function checkWinLose() {
     if (ship.position <= 0) {

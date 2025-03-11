@@ -116,23 +116,31 @@ button:hover {
 
 
 /* 🚨 LCARS Alerts */
+@keyframes redAlertFlash {
+    0% { background-color: rgba(255, 0, 0, 0.3); }
+    50% { background-color: rgba(255, 0, 0, 0.8); }
+    100% { background-color: rgba(255, 0, 0, 0.3); }
+}
+
 .red-alert {
-    animation: redAlertEffect 0.7s alternate infinite;
+    animation: redAlertFlash 0.8s infinite alternate;
 }
 
-@keyframes redAlertEffect {
-    0% { background-color: rgba(255, 0, 0, 0.4); }
-    100% { background-color: rgba(255, 0, 0, 0.1); }
+.lcars-flash {
+    animation: redAlertFlash 1s infinite alternate;
 }
 
-@keyframes screenShake {
+
+@keyframes redAlertShake {
     0% { transform: translate(0, 0); }
-    25% { transform: translate(-5px, 5px); }
-    50% { transform: translate(5px, -5px); }
-    75% { transform: translate(-5px, -5px); }
+    25% { transform: translate(-2px, 2px); }
+    50% { transform: translate(2px, -2px); }
+    75% { transform: translate(-2px, -2px); }
     100% { transform: translate(0, 0); }
 }
 
+/* 🚨 Apply Shake When Red Alert is Active */
 .red-alert {
-    animation: screenShake 0.5s ease-in-out infinite;
+    animation: redAlertFlash 0.8s infinite alternate, redAlertShake 0.3s infinite linear;
 }
+
