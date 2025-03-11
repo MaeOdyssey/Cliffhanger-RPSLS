@@ -4,7 +4,13 @@ export class LCARS {
 
     static updateUI(ship) {
         let distanceMessage = `🌌 Current Distance: ${ship.position} units`;
-
+        if (ship.position <= 3) {
+            console.log("💥 Viewscreen Damage Detected!");
+            document.getElementById("cracked-screen").classList.add("damaged");
+        } else {
+            document.getElementById("cracked-screen").classList.remove("damaged");
+        }
+        
         if (ship.position <= 5) {
             console.log("🚨 RED ALERT TRIGGERED!");
             distanceMessage = "🚨 **RED ALERT! Critical Danger!**";

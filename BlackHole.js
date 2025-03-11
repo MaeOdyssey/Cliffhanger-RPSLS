@@ -1,3 +1,4 @@
+import { AnomalyManager } from "./AnomalyManager.js";
 export class BlackHole {
     constructor() {
         this.element = document.getElementById("blackhole-img");
@@ -17,10 +18,7 @@ export class BlackHole {
             console.log("🌌 The singularity pulls the ship closer!");
             document.getElementById("anomaly-message").innerText = "🌌 The black hole pulls you in!";
         } else if (eventChance < 0.5) {
-            const anomaly = Anomaly.randomAnomaly();
-            ship.move(anomaly.movement);
-            console.log(`⚠️ Unstable Space Event: ${anomaly.name}`);
-            document.getElementById("anomaly-message").innerText = `⚠️ Space Distortion: ${anomaly.name}`;
+            AnomalyManager.triggerAnomaly(ship); // ✅ Use AnomalyManager instead of Anomaly
         } else if (eventChance < 0.7) {
             let randomShift = Math.random() > 0.5 ? 1 : -1;
             ship.move(randomShift);

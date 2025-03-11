@@ -141,6 +141,21 @@ button:hover {
 
 /* 🚨 Apply Shake When Red Alert is Active */
 .red-alert {
-    animation: redAlertFlash 0.8s infinite alternate, redAlertShake 0.3s infinite linear;
+    animation:#cracked-screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0; /* ✅ Hidden by default */
+        pointer-events: none;
+        transition: opacity 0.5s ease-in-out;
+    }
+    
+    /* 🚨 Show Cracks When Ship Is Close to Destruction */
+    .damaged {
+        opacity: 1 !important;
+    }
+     redAlertFlash 0.8s infinite alternate, redAlertShake 0.3s infinite linear;
 }
 

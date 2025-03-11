@@ -1,14 +1,19 @@
 import { Ship } from "./Ship.js";
 import { BlackHole } from "./BlackHole.js";
 import { LCARS } from "./LCARS.js";
-import { Anomaly } from "./Anomaly.js";
-import { Maneuver } from "./Maneuver.js";
+import { DamageSystem } from "./DamageSystem.js";
+import { AnomalyManager } from "./AnomalyManager.js";
+import { EffectsManager } from "./EffectsManager.js";
+import { Maneuver } from "./Maneuver.js";  // ✅ Import Maneuver!
+import { checkWinLose, endGame } from "./GameLogic.js";  // ✅ Now script.js can use these functions
+
+
 
 // 🚀 Create instances
 const ship = new Ship();
 const blackHole = new BlackHole();
+const damageSystem = new DamageSystem();
 
-// 🎮 Handle player moves
 function playMove(playerChoice) {
     console.log(`🎮 Player Chose: ${playerChoice}`);
 
@@ -18,16 +23,18 @@ function playMove(playerChoice) {
         return;
     }
 
-        // ✅ Fix: Ensure core button disappears after one use
-        let coreButton = document.getElementById("core-btn");
-        if (playerChoice === "core" && coreButton && !coreButton.disabled) {
+    // ✅ Fix: Ensure core button disappears after one use
+    let coreButton = document.getElementById("core-btn");
+    if (playerChoice === "core") {
+        if (!coreButton.disabled) {
             coreButton.disabled = true;
             coreButton.innerText = "⚠️ Core Ejected!";
             console.log("💥 Warp core has been ejected!");
-        } else if (playerChoice === "core" && coreButton.disabled) {
+        } else {
             console.warn("❌ Warp core has already been ejected!");
             return; // 🚀 Prevents it from doing anything again!
         }
+    }
 
     ship.move(maneuver.movement);
     document.getElementById("player-action").innerText = `🛠️ ${maneuver.name} - ${maneuver.effect}`;
@@ -35,33 +42,17 @@ function playMove(playerChoice) {
     // ✅ Black Hole Takes Its Turn
     blackHole.takeAction(ship);
 
-    // ✅ Check Win/Lose Conditions
-    checkWinLose();
+    // ✅ Trigger Anomalies
+    AnomalyManager.triggerAnomaly(ship);
 
-    // ✅ Update UI and Black Hole Scaling
+    // ✅ Check Win/Lose Conditions
+    checkWinLose(ship);
+
+    // ✅ Update UI, Damage Effects, & Scaling
     blackHole.updateScale(ship.position);
     LCARS.updateUI(ship);
+    damageSystem.updateDamage(ship.position);
+    EffectsManager.triggerRedAlert(ship.position);
 }
-
-// ✅ Function to End the Game
-function checkWinLose() {
-    if (ship.position <= 0) {
-        endGame("💀 Critical Singularity Collapse! The Enterprise has been lost...", "blackhole-static.png");
-    } else if (ship.position >= 11) {
-        endGame("🖖 Warp Drive Engaged! The Enterprise has escaped!", "warp-nebula.png");
-    }
-}
-function endGame(message, newImage) {
-    console.log("🔥 GAME OVER:", message);
-    document.getElementById("singularity-distance").innerText = message;
-    document.getElementById("game-container").innerHTML += "<p>Mission Over.</p>";
-    document.getElementById("replay-btn").style.display = "block";
-
-    let buttons = document.querySelectorAll("#controls button");
-    buttons.forEach(btn => btn.disabled = true);
-
-    document.getElementById("blackhole-img").src = `images/${newImage}`;
-}
-
-// ✅ Make `playMove()` available globally
 window.playMove = playMove;
+console.log("✅ playMove is now globally available!");
