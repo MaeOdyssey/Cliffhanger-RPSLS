@@ -5,50 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Singularity Escape</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
 <body>
-
-    <!-- Starship Viewscreen -->
-    <div id="viewscreen">
-        <img id="blackhole-img" src="images/blackhole.png" alt="Black Hole">
-    </div>
-
-    <!-- Star Trek-style Monitor Display -->
-    <div id="display-panel">
-        <div id="action-log">
-            <h3>🛠️ Tactical Systems Report</h3>
-            <p id="player-action">Awaiting Command...</p>
+    <div id="game-container">
+        <!-- Viewscreen (Black Hole) -->
+        <div id="viewscreen">
+            <img src="images/deep_space.png" alt="Deep space">
+            <img id="blackhole-img" src="images/blackhole.png" alt="Black Hole">
         </div>
-
-        <div id="singularity-status">
-            <h3>🌌 Gravitational Integrity</h3>
-            <p id="singularity-distance">Calculating...</p>
+        <!-- LCARS Monitor -->
+        <div id="lcars-monitor">
+            <div class="lcars-section">
+                <h3>📡 Singularity Distance</h3>
+                <p id="singularity-distance">🌌 5 units away</p>
+            </div>
+            <div class="lcars-section">
+                <h3>🛠️ Maneuver Status</h3>
+                <p id="player-action">Awaiting Orders...</p>
+            </div>
+            <div class="lcars-section">
+                <h3>⚠️ Anomaly Detection</h3>
+                <p id="anomaly-message">No anomalies detected</p>
+            </div>
         </div>
-
-        <div id="anomaly-alert">
-            <h3>⚠️ Subspace Disturbance Analysis</h3>
-            <p id="anomaly-message">All systems stable.</p>
-            <button id="dismiss-anomaly" onclick="dismissAnomaly()" style="display: none;">Acknowledge</button>
-        </div>
+            <!-- Controls (Maneuvers) -->
+            <div id="controls">
+                <button onclick="playMove('thrusters')">Thrusters</button>
+                <button onclick="playMove('shields')">Raise Shields</button>
+                <button onclick="playMove('core')">Eject Warp Core</button>
+                <button onclick="playMove('dampener')">Inertial Dampeners</button>
+                <button onclick="playMove('phase')">Phase Shift</button>
+            </div>
+            <!-- Enterprise-->
+            <div id="enterprise">
+                <img id="enterprise" src="images/enterprise.png" alt="Enterprise">
+            </div>
+            <!-- Replay Button -->
+             <div id="replay">
+                <button id="replay-btn" style="display: none;" onclick="window.location.reload()">Replay</button>
+             </div>
+        <script type="module" src="script.js"></script>
     </div>
-
-    <!-- Player Controls -->
-    <div id="controls">
-        <button onclick="playGame('integrity')">Reinforce Shields</button>
-        <button onclick="playGame('dampener')">Stabilize Dampeners</button>
-        <button onclick="playGame('thrusters')">Engage Thrusters</button>
-        <button id="core-btn" onclick="playGame('core')">Eject Warp Core</button>
-        <button onclick="playGame('phase')">Initiate Phase Shift</button>
-    </div>
-
-    <!-- The USS Enterprise -->
-    <div id="game-area">
-        <img id="enterprise" src="images/enterprise.png" alt="USS Enterprise">
-    </div>
-
-    <!-- Replay Button -->
-    <button id="replay-btn" onclick="location.reload()" style="display: none;">Restart Mission</button>
-
 </body>
 </html>

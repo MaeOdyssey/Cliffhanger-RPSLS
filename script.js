@@ -1,126 +1,66 @@
-// Ensure script is running
-console.log("Script is running!");
+import { Ship } from "./Ship.js";
+import { BlackHole } from "./BlackHole.js";
+import { LCARS } from "./LCARS.js";
+import { Anomaly } from "./Anomaly.js";
+import { Maneuver } from "./Maneuver.js";
 
-// Global variables
-let shipPosition = 5;
-const minPosition = 0;
-const maxPosition = 11;
-let coreEjected = false;
-let previousPosition = 5;
-const shipElement = document.getElementById("enterprise");
-const blackHoleImg = document.getElementById("blackhole-img");
-const viewscreen = document.getElementById("viewscreen");
+// 🚀 Debug: Confirm Script is Running
+console.log("🚀 Script is running!");
 
-// Function to Move the Enterprise & Update the Viewscreen
-function updateShipPosition() {
-    console.log("Updating ship position...");
-    const percentage = (shipPosition / maxPosition) * 90;
-    shipElement.style.left = percentage + "%";
+// 🚀 Create instances
+const ship = new Ship();
+const blackHole = new BlackHole();
 
-    // ✅ Black Hole Scaling - Includes Event Horizon Death
-    let blackHoleScale = 1 + ((maxPosition - shipPosition) * 0.2);
-    if (blackHoleScale > 3) { 
-        blackHoleScale = 3;
-        endGame("💀 **Critical Singularity Collapse!** The Enterprise has been consumed by the black hole.");
-        return;
-    }  
-    blackHoleImg.style.transform = `scale(${blackHoleScale})`;
+// 🎮 Handle player moves
+function playMove(playerChoice) {
+    console.log(`🎮 Player Chose: ${playerChoice}`);
 
-    if (shipPosition > previousPosition || coreEjected) {
-        shipElement.style.transform = "rotateY(180deg)";
-    } else if (shipPosition < previousPosition) {
-        shipElement.style.transform = "rotateY(0deg)";
-    }
-
-    previousPosition = shipPosition;
-
-    // ✅ Distance Calculation
-    let distanceMessage = `🌌 Current Distance: ${shipPosition - minPosition} units`;
-    
-    // ✅ NEW: Distance Warnings + Red Alert
-    if (shipPosition <= 2) {
-        distanceMessage = "🚨 **EVENT HORIZON APPROACHING!** Gravitational forces increasing!";
-        viewscreen.classList.add("red-alert");
-    } else if (shipPosition >= 9) {
-        distanceMessage = "✅ **SAFE ZONE NEARING!** Stabilization fields detected.";
-        viewscreen.classList.remove("red-alert");
-    } else {
-        viewscreen.classList.remove("red-alert");
-    }
-    
-    document.getElementById("singularity-distance").innerText = distanceMessage;
-
-    // ✅ NEW: Warp Speed Escape Effect
-    if (shipPosition >= maxPosition) {
-        shipElement.classList.add("warp-speed"); // 🚀 Apply warp effect
-        setTimeout(() => {
-            shipElement.style.opacity = "0"; // 🚀 Fade out
-            endGame("🖖 **Warp Drive Engaged! The Enterprise has escaped the singularity!**");
-        }, 1000);
-        return;
-    }
-}
-
-// Function to Play the Game
-function playGame(playerChoice) {
-    console.log("playGame() function is running! Player chose:", playerChoice);
-
-    if (playerChoice === "core" && coreEjected) {
-        document.getElementById("player-action").innerText = "⚠️ The warp core has already been ejected!";
+    const maneuver = Maneuver.getManeuver(playerChoice);
+    if (!maneuver) {
+        console.error("❌ Invalid maneuver:", playerChoice);
         return;
     }
 
-    shipPosition += playerChoice === "core" ? 2 : 1;
+    ship.move(maneuver.movement);
+    console.log(`🛠️ Executed ${maneuver.name}: ${maneuver.effect}`);
+    document.getElementById("player-action").innerText = `🛠️ ${maneuver.name} - ${maneuver.effect}`;
 
-    // ✅ Check for Random Space Anomalies (20% Chance)
-    let anomalyMessage = "All systems stable.";
-    let anomalyOccurred = false;
-
+    // ✅ Check for random anomaly (20% Chance)
     if (Math.random() < 0.2) {
-        anomalyOccurred = true;
-        let anomalyType = Math.random();
-
-        if (anomalyType < 0.33) {
-            anomalyMessage = "🌌 **Subspace Distortion Detected!** Temporal fluctuations affecting navigation.";
-            shipPosition = Math.min(shipPosition + 1, maxPosition);
-        } else if (anomalyType < 0.66) {
-            anomalyMessage = "🌀 **Gravitational Instability!** Uncontrolled singularity surge detected.";
-            shipPosition = Math.max(shipPosition - 1, minPosition);
-        } else {
-            anomalyMessage = "🪨 **Localized Debris Field Encountered.** Shields absorbing impact.";
-        }
-
-        // ✅ Trigger Camera Shake When Anomalies Occur
-        viewscreen.classList.add("shake");
-        setTimeout(() => viewscreen.classList.remove("shake"), 500);
+        const anomaly = Anomaly.randomAnomaly();
+        ship.move(anomaly.movement);
+        console.log(`⚡ Anomaly Detected: ${anomaly.name} - ${anomaly.effect}`);
+        LCARS.displayAnomaly(anomaly.name, anomaly.effect);
     }
 
-    updateShipPosition();
-
-    // ✅ Update LCARS Monitor Sections
-    document.getElementById("player-action").innerText = `🛠️ Executed: ${playerChoice.toUpperCase()}`;
-    document.getElementById("anomaly-message").innerText = anomalyMessage;
-
-    // ✅ Show Acknowledge Button ONLY if an anomaly occurred
-    let dismissButton = document.getElementById("dismiss-anomaly");
-    if (anomalyOccurred) {
-        dismissButton.style.display = "block";
+    // ✅ Check Win/Lose Conditions
+    if (ship.position <= 0) {
+        endGame("💀 Critical Singularity Collapse! The Enterprise has been lost...", "blackhole-static.png");
+        return;
     }
+
+    if (ship.position >= 11) {
+        endGame("🖖 Warp Drive Engaged! The Enterprise has escaped!", "warp-nebula.png");
+        return;
+    }
+
+    // ✅ Update UI and Black Hole Scaling
+    blackHole.updateScale(ship.position);
+    LCARS.updateUI(ship);
 }
 
-// Function to End the Game (For Death or Victory)
-function endGame(message) {
+// ✅ Function to End the Game
+function endGame(message, newImage) {
+    console.log("🔥 GAME OVER:", message);
     document.getElementById("singularity-distance").innerText = message;
-    document.getElementById("game").innerHTML = "<p>Mission Over.</p>";
+    document.getElementById("game-container").innerHTML += "<p>Mission Over.</p>";
     document.getElementById("replay-btn").style.display = "block";
 
-    // ✅ Disable all buttons so the player can't keep clicking
     let buttons = document.querySelectorAll("#controls button");
     buttons.forEach(btn => btn.disabled = true);
+
+    document.getElementById("blackhole-img").src = `images/${newImage}`;
 }
 
-// Function to Dismiss Anomalies
-function dismissAnomaly() {
-    document.getElementById("anomaly-message").innerText = "All systems stable.";
-    document.getElementById("dismiss-anomaly").style.display = "none";
-}
+// ✅ Make `playMove()` available globally
+window.playMove = playMove;

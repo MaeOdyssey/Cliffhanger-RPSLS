@@ -1,30 +1,121 @@
-/* General Styles */
+/* 🚀 Overall Layout */
 body {
+    font-family: Arial, sans-serif;
     background-color: black;
-    color: #66fcf1;
-    font-family: "Courier New", Courier, monospace;
+    color: white;
     text-align: center;
 }
 
-/* Starship Viewscreen */
-/* Starship Viewscreen (Now Has Borders) */
+/* 🚀 Game Container */
+#game-container {
+    width: 80%;
+    margin: auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 🖥️ LCARS Monitor (Even Borders & Columns) */
+#lcars-monitor {
+    width: 100%;
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #00274D;
+    border: 3px solid cyan;
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+/* 🚀 LCARS Sections (Ensures Even Width) */
+.lcars-section {
+    width: 32%; /* Keeps sections equal */
+    padding: 10px;
+    border: 3px solid #FFD700;
+    background-color: rgba(0, 40, 90, 0.9);
+    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+    border-radius: 10px;
+}
+
+/* 🔹 LCARS Section Titles */
+.lcars-section h3 {
+    font-size: 1.2em;
+    color: #FFD700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}margin-bottom: 5px;
+}
+
+/* 🚀 Controls */
+#controls {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #FFA500;
+}
+
+/* 🚀 Viewscreen (Background & Styling) */
 #viewscreen {
-    width: 800px;
-    height: 250px;
-    background-color: black;
+    width: 100%;
+    height: 300px;
+    position: relative;
+    background-image: url("images/deep_space.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 3px solid cyan;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 4px solid #ffcc00;
-    border-top: 4px solid #ffcc00; /* ✅ New Top Border */
-    border-left: 4px solid #ffcc00; /* ✅ New Left Border */
-    border-right: 4px solid #ffcc00; /* ✅ New Right Border */
-    position: relative;
     overflow: hidden;
-    margin: 0 auto;
+    margin-top: 20px;
 }
 
-/* Red Alert Flashing Effect */
+
+/* 🚀 Enterprise (Now Positioned Correctly) */
+#enterprise {
+    width: 50px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: left 0.5s ease-in-out;
+}
+
+/* 🌌 Black Hole (Rotating Effect) */
+@keyframes rotateBlackHole {
+    0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+    50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.05); }
+    100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+}
+
+#blackhole-img {
+    width: 180px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: rotateBlackHole 10s linear infinite; /* Rotates continuously */
+}
+
+
+/* 🚨 LCARS Alerts */
 .red-alert {
     animation: redAlertEffect 0.7s alternate infinite;
 }
@@ -32,103 +123,4 @@ body {
 @keyframes redAlertEffect {
     0% { background-color: rgba(255, 0, 0, 0.4); }
     100% { background-color: rgba(255, 0, 0, 0.1); }
-}
-
-
-/* Black Hole Image */
-#blackhole-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    transform: scale(1);
-    transition: transform 0.3s ease-in-out;
-}
-
-/* Camera Shake Effect for Anomalies */
-.shake {
-    animation: shakeEffect 0.5s ease-in-out;
-}
-
-@keyframes shakeEffect {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-8px); }
-    50% { transform: translateX(8px); }
-    75% { transform: translateX(-4px); }
-}
-
-
-/* Star Trek-style Monitor Display */
-#display-panel {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    width: 90%;
-    margin: 20px auto;
-    border: 3px solid #ffcc00;
-    box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8);
-}
-
-/* Monitor Sections */
-#action-log, #singularity-status, #anomaly-alert {
-    border: 2px solid #ffcc00;
-    padding: 10px;
-    border-radius: 8px;
-    width: 33%;
-    min-height: 120px;
-}
-
-/* Colors for Each Section */
-#action-log {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-#singularity-status {
-    background-color: rgba(30, 30, 30, 0.8);
-}
-
-#anomaly-alert {
-    background-color: rgba(50, 0, 0, 0.8);
-    color: #ff6666;
-}
-
-/* Controls */
-#controls {
-    margin: 20px;
-}
-
-button {
-    margin: 5px;
-    padding: 10px;
-    background-color: #ffcc00;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* 🚀 Warp Speed Animation */
-.warp-speed {
-    animation: warpEffect 1s linear;
-}
-
-@keyframes warpEffect {
-    0% { transform: scale(1) translateX(0); }
-    50% { transform: scale(1.5) translateX(30vw); opacity: 1; }
-    100% { transform: scale(2) translateX(50vw); opacity: 0; }
-}
-
-
-/* Enterprise */
-#game-area {
-    position: relative;
-    width: 100%;
-    height: 200px;
-}
-
-#enterprise {
-    position: absolute;
-    left: 40%;
-    width: 140px;
-    transition: left 0.3s ease-in-out;
 }
