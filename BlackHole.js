@@ -9,23 +9,35 @@ export class BlackHole {
         this.element.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${shipPosition * 10}deg)`;
     }
 
-    // 🚀 New Feature: Black Hole Does Something Each Turn
     takeAction(ship) {
+        console.log("🌀 Black Hole Taking Action...");
+    
         let eventChance = Math.random();
-
-        if (eventChance < 0.3) {
-            ship.move(-1); // 📌 Slight pull toward the black hole
-            console.log("🌌 The singularity pulls the ship closer!");
-            document.getElementById("anomaly-message").innerText = "🌌 The black hole pulls you in!";
-        } else if (eventChance < 0.5) {
-            AnomalyManager.triggerAnomaly(ship); // ✅ Use AnomalyManager instead of Anomaly
-        } else if (eventChance < 0.7) {
-            let randomShift = Math.random() > 0.5 ? 1 : -1;
-            ship.move(randomShift);
-            console.log(`🔀 The singularity bends space-time! Ship moved ${randomShift} units.`);
-            document.getElementById("anomaly-message").innerText =  `🔀 Space-time bends unpredictably! The ship is pulled ${randomShift > 0 ? "further away" : "closer"}.`;
+        let multiActionChance = Math.random();
+    
+        if (ship.position <= 6) {
+            console.log("🚨 RED ALERT TRIGGERED! The singularity is dangerously close!");
+            EffectsManager.triggerRedAlert(ship.position);
+        }
+    
+        // 🔥 NEW: Sometimes take multiple actions!
+        if (multiActionChance < 0.4) {
+            console.log("🌀 The singularity is destabilizing! Taking multiple actions...");
+            ship.move(-1);
+            document.getElementById("anomaly-message").innerText = "🌌 The black hole intensifies!";
+            setTimeout(() => AnomalyManager.triggerAnomaly(ship), 1000);
         } else {
-            console.log("✅ The singularity remains stable... for now.");
+            if (eventChance < 0.3) {
+                ship.move(-1);
+                console.log("🌌 The singularity PULLS the ship closer!");
+                document.getElementById("anomaly-message").innerText = "🌌 The black hole pulls you in!";
+            } else if (eventChance < 0.6) {
+                console.log("⚠️ An anomaly is triggered!");
+                AnomalyManager.triggerAnomaly(ship);
+            } else {
+                console.log("✅ The singularity remains stable... for now.");
+            }
         }
     }
+    
 }

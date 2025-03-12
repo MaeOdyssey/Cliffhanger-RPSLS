@@ -1,4 +1,4 @@
-/* 🚀 General Reset */
+/* General Reset */
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +6,7 @@
     font-family: 'Arial', sans-serif;
 }
 
-/* 🚀 Body Styling */
+/* Body Styling */
 body {
     background-color: black;
     color: white;
@@ -15,10 +15,10 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    overflow: hidden; /* ✅ Prevent scrolling */
+    overflow: hidden; /* Prevent scrolling */
 }
 
-/* 🚀 Game Container */
+/* Game Container */
 #game-container {
     display: flex;
     flex-direction: column;
@@ -27,7 +27,7 @@ body {
     gap: 20px;
 }
 
-/* 🚀 Viewscreen */
+/* Viewscreen */
 #viewscreen {
     position: relative;
     width: 800px; /* ✅ Fixed width */
@@ -41,7 +41,7 @@ body {
     box-shadow: 0 0 10px cyan;
 }
 
-/* 🚀 Background for Viewscreen */
+/* Background for Viewscreen */
 #viewscreen::before {
     content: "";
     position: absolute;
@@ -51,31 +51,31 @@ body {
     z-index: -1;
 }
 
-/* 🚀 Black Hole */
+/* Black Hole */
 #blackhole-img {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 250px; /* ✅ Fixed size */
+    width: 250px; /* Fixed size */
     transition: transform 0.3s ease-in-out;
 }
 
-/* 🚀 Enterprise */
+/* Enterprise */
 #enterprise {
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px; /* ✅ Fixed size */
+    width: 100px; /* Fixed size */
     transition: transform 0.3s ease-in-out;
 }
 
-/* 🚀 LCARS Monitor */
+/* LCARS Monitor */
 #lcars-monitor {
     position: relative;
-    width: 800px; /* ✅ Matches viewscreen */
-    height: 300px; /* ✅ Fixed height */
+    width: 800px; /* Matches viewscreen */
+    height: 300px; /* Fixed height */
     max-width: 800px;
     max-height: 300px;
     overflow: hidden;
@@ -88,42 +88,43 @@ body {
     padding: 5px;
 }
 
-/* 🚀 LCARS Sections - Fixed Height */
+/* LCARS Sections - Fixed Height */
 .lcars-section {
     flex: 1;
+    font-size:24px;
     text-align: center;
     padding: 10px;
     border: 2px solid cyan;
     background-color: rgba(0, 0, 80, 0.7);
     box-shadow: 0 0 10px cyan;
     margin: 5px;
-    min-height: 300px; /* ✅ Ensures all sections have a consistent height */
+    min-height: 300px; /* Ensures all sections have a consistent height */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items:center;
 }
 
-/* 🚀 Title Styles */
+/* Title Styles */
 .lcars-section h3 {
     padding: 5px;
     border: 2px solid cyan;
     background-color: rgba(0, 0, 50, 0.8);
     display: inline-block;
     text-shadow: 0 0 5px cyan;
-    width: 100%; /* ✅ Ensures full width */
-    text-align: center; /* ✅ Keeps it centered */
-    margin-bottom: 10px; /* ✅ Adds spacing below */
+    width: 100%; /* Ensures full width */
+    text-align: center; /* Keeps it centered */
+    margin-bottom: 10px; /* Adds spacing below */
 }
 
-/* 🚀 Player Controls */
+/* Player Controls */
 #controls {
     display: flex;
     gap: 10px;
     margin-top: 15px;
 }
 
-/* 🚀 Buttons */
+/* Buttons */
 button {
     background-color: #222;
     color: white;
@@ -139,7 +140,7 @@ button:hover {
     color: black;
 }
 
-/* 🚀 Warp Core Button */
+/* Warp Core Button */
 #core-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -151,12 +152,12 @@ button:hover {
     box-shadow: 0 0 20px red !important;
 }
 
-/* 🚀 Flashing Effect for Red Alert */
+/* Flashing Effect for Red Alert */
 .lcars-flash {
     animation: flash 0.7s infinite alternate;
-    color: yellow !important;  /* ✅ Changes text to yellow for readability */
+    color: yellow !important;  /* Changes text to yellow for readability */
     font-weight: bold;
-    text-shadow: 0 0 5px black; /* ✅ Adds contrast for better visibility */
+    text-shadow: 0 0 5px black; /* Adds contrast for better visibility */
 }
 
 @keyframes flash {
@@ -168,7 +169,7 @@ button:hover {
     }
 }
 
-/* 🚀 Screen Shake */
+/* Screen Shake */
 .shake {
     animation: shake 0.5s ease-in-out;
 }
@@ -181,24 +182,24 @@ button:hover {
     100% { transform: translate(0px, 0px); }
 }
 
-/* 🚀 Cracked Glass Overlay */
+/* Cracked Glass Overlay */
 #cracked-screen {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0; /* ✅ Hidden by default */
+    opacity: 0; /* Hidden by default */
     pointer-events: none;
     transition: opacity 0.5s ease-in-out;
 }
 
-/* 🚀 Show Cracks When Ship Is Close to Destruction */
+/* Show Cracks When Ship Is Close to Destruction */
 .damaged {
     opacity: 1 !important;
 }
 
-/* 🚀 Game Over Screen */
+/* Game Over Screen */
 #game-over {
     display: none;
     position: absolute;

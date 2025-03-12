@@ -1,13 +1,14 @@
 export function checkWinLose(ship) {
-    if (!ship) {
-        console.error("❌ ERROR: ship is undefined in checkWinLose!");
-        return;
-    }
-
     if (ship.position <= 0) {
-        endGame("💀 Critical Singularity Collapse! The Enterprise has been lost...", "blackhole-static.png");
-    } else if (ship.position >= 11) {
-        endGame("🖖 Warp Drive Engaged! The Enterprise has escaped!", "warp-nebula.png");
+        document.getElementById("viewscreen").style.background = "url('images/event_horizon.png') no-repeat center center/cover";
+        document.getElementById("game-over").style.display = "block";
+        document.getElementById("game-over-message").innerText = "The ship has been consumed by the singularity...";
+        console.log("💀 GAME OVER - The ship was lost to the event horizon!");
+    } else if (ship.position >= 10) {
+        document.getElementById("viewscreen").style.background = "url('images/safe_space.png') no-repeat center center/cover";
+        document.getElementById("game-over").style.display = "block";
+        document.getElementById("game-over-message").innerText = "You successfully escaped!";
+        console.log("🚀 SUCCESS - The ship has escaped!");
     }
 }
 

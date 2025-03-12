@@ -3,7 +3,7 @@ export class EffectsManager {
         let viewscreen = document.getElementById("viewscreen");
         let warningSections = document.querySelectorAll(".lcars-section");
 
-        if (shipPosition <= 5) {
+        if (shipPosition <= 7) {
             if (!viewscreen.classList.contains("red-alert")) { // ✅ Prevents unnecessary re-triggering
                 console.log("🚨 RED ALERT TRIGGERED!");
                 viewscreen.classList.add("red-alert");
