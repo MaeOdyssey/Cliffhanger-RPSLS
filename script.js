@@ -4,8 +4,10 @@ import { LCARS } from "./LCARS.js";
 import { DamageSystem } from "./DamageSystem.js";
 import { AnomalyManager } from "./AnomalyManager.js";
 import { EffectsManager } from "./EffectsManager.js";
-import { Maneuver } from "./Maneuver.js";  // ✅ Import Maneuver!
-import { checkWinLose, endGame } from "./GameLogic.js";  // ✅ Now script.js can use these functions
+import { Maneuver } from "./Maneuver.js";  
+import { AIManeuver } from "./AIManeuver.js";
+import { checkWinLose, endGame } from "./GameLogic.js";  
+//Now script.js can use these functions
 
 
 
@@ -23,7 +25,7 @@ function playMove(playerChoice) {
         return;
     }
 
-    // ✅ Fix: Ensure core button disappears after one use
+    //  Fix: Ensure core button disappears after one use
     let coreButton = document.getElementById("core-btn");
     if (playerChoice === "core") {
         if (!coreButton.disabled) {

@@ -1,161 +1,220 @@
-/* 🚀 Overall Layout */
+/* 🚀 General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* 🚀 Body Styling */
 body {
-    font-family: Arial, sans-serif;
     background-color: black;
     color: white;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden; /* ✅ Prevent scrolling */
 }
 
 /* 🚀 Game Container */
 #game-container {
-    width: 80%;
-    margin: auto;
-    padding-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-/* 🖥️ LCARS Monitor (Even Borders & Columns) */
-#lcars-monitor {
-    width: 100%;
-    margin-top: 10px;
-    padding: 15px;
-    background-color: #00274D;
-    border: 3px solid cyan;
-    display: flex;
-    justify-content: space-evenly;
-    text-align: center;
-}
-
-/* 🚀 LCARS Sections (Ensures Even Width) */
-.lcars-section {
-    width: 32%; /* Keeps sections equal */
-    padding: 10px;
-    border: 3px solid #FFD700;
-    background-color: rgba(0, 40, 90, 0.9);
-    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
-    border-radius: 10px;
-}
-
-/* 🔹 LCARS Section Titles */
-.lcars-section h3 {
-    font-size: 1.2em;
-    color: #FFD700;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-}margin-bottom: 5px;
-}
-
-/* 🚀 Controls */
-#controls {
-    margin-top: 10px;
-    display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
 }
 
-button {
-    padding: 10px 20px;
-    background-color: #FFD700;
-    color: black;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #FFA500;
-}
-
-/* 🚀 Viewscreen (Background & Styling) */
+/* 🚀 Viewscreen */
 #viewscreen {
-    width: 100%;
-    height: 300px;
     position: relative;
-    background-image: url("images/deep_space.png");
+    width: 800px; /* ✅ Fixed width */
+    height: 400px; /* ✅ Fixed height */
+    max-width: 800px;
+    max-height: 400px;
+    overflow: hidden; /* ✅ Prevents stretching */
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    border: 3px solid cyan;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    margin-top: 20px;
+    border: 5px solid cyan;
+    box-shadow: 0 0 10px cyan;
 }
 
+/* 🚀 Background for Viewscreen */
+#viewscreen::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('images/deep_space.png') no-repeat center center/cover;
+    z-index: -1;
+}
 
-/* 🚀 Enterprise (Now Positioned Correctly) */
+/* 🚀 Black Hole */
+#blackhole-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px; /* ✅ Fixed size */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* 🚀 Enterprise */
 #enterprise {
-    width: 50px;
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    transition: left 0.5s ease-in-out;
+    width: 100px; /* ✅ Fixed size */
+    transition: transform 0.3s ease-in-out;
 }
 
-/* 🌌 Black Hole (Rotating Effect) */
-@keyframes rotateBlackHole {
-    0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
-    50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.05); }
-    100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+/* 🚀 LCARS Monitor */
+#lcars-monitor {
+    position: relative;
+    width: 800px; /* ✅ Matches viewscreen */
+    height: 300px; /* ✅ Fixed height */
+    max-width: 800px;
+    max-height: 300px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 50, 0.8);
+    border: 5px solid cyan;
+    box-shadow: 0 0 10px cyan;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
 }
 
-#blackhole-img {
-    width: 180px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    animation: rotateBlackHole 10s linear infinite; /* Rotates continuously */
+/* 🚀 LCARS Sections - Fixed Height */
+.lcars-section {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border: 2px solid cyan;
+    background-color: rgba(0, 0, 80, 0.7);
+    box-shadow: 0 0 10px cyan;
+    margin: 5px;
+    min-height: 300px; /* ✅ Ensures all sections have a consistent height */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items:center;
 }
 
-
-/* 🚨 LCARS Alerts */
-@keyframes redAlertFlash {
-    0% { background-color: rgba(255, 0, 0, 0.3); }
-    50% { background-color: rgba(255, 0, 0, 0.8); }
-    100% { background-color: rgba(255, 0, 0, 0.3); }
+/* 🚀 Title Styles */
+.lcars-section h3 {
+    padding: 5px;
+    border: 2px solid cyan;
+    background-color: rgba(0, 0, 50, 0.8);
+    display: inline-block;
+    text-shadow: 0 0 5px cyan;
+    width: 100%; /* ✅ Ensures full width */
+    text-align: center; /* ✅ Keeps it centered */
+    margin-bottom: 10px; /* ✅ Adds spacing below */
 }
 
+/* 🚀 Player Controls */
+#controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* 🚀 Buttons */
+button {
+    background-color: #222;
+    color: white;
+    padding: 10px 20px;
+    border: 2px solid cyan;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: cyan;
+    color: black;
+}
+
+/* 🚀 Warp Core Button */
+#core-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 🚀 Red Alert */
 .red-alert {
-    animation: redAlertFlash 0.8s infinite alternate;
+    background-color: red !important;
+    box-shadow: 0 0 20px red !important;
 }
 
+/* 🚀 Flashing Effect for Red Alert */
 .lcars-flash {
-    animation: redAlertFlash 1s infinite alternate;
+    animation: flash 0.7s infinite alternate;
+    color: yellow !important;  /* ✅ Changes text to yellow for readability */
+    font-weight: bold;
+    text-shadow: 0 0 5px black; /* ✅ Adds contrast for better visibility */
 }
 
-
-@keyframes redAlertShake {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(-2px, 2px); }
-    50% { transform: translate(2px, -2px); }
-    75% { transform: translate(-2px, -2px); }
-    100% { transform: translate(0, 0); }
-}
-
-/* 🚨 Apply Shake When Red Alert is Active */
-.red-alert {
-    animation:#cracked-screen {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0; /* ✅ Hidden by default */
-        pointer-events: none;
-        transition: opacity 0.5s ease-in-out;
+@keyframes flash {
+    from {
+        background-color: rgba(255, 0, 0, 0.6);
     }
-    
-    /* 🚨 Show Cracks When Ship Is Close to Destruction */
-    .damaged {
-        opacity: 1 !important;
+    to {
+        background-color: rgba(255, 0, 0, 1);
     }
-     redAlertFlash 0.8s infinite alternate, redAlertShake 0.3s infinite linear;
 }
 
+/* 🚀 Screen Shake */
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0% { transform: translate(0px, 0px); }
+    25% { transform: translate(3px, 3px); }
+    50% { transform: translate(-3px, -3px); }
+    75% { transform: translate(3px, -3px); }
+    100% { transform: translate(0px, 0px); }
+}
+
+/* 🚀 Cracked Glass Overlay */
+#cracked-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* ✅ Hidden by default */
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* 🚀 Show Cracks When Ship Is Close to Destruction */
+.damaged {
+    opacity: 1 !important;
+}
+
+/* 🚀 Game Over Screen */
+#game-over {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 30px;
+    text-align: center;
+    border: 3px solid cyan;
+    box-shadow: 0 0 20px cyan;
+}
+
+#game-over button {
+    margin-top: 10px;
+    background-color: cyan;
+    color: black;
+    border: 2px solid white;
+}
